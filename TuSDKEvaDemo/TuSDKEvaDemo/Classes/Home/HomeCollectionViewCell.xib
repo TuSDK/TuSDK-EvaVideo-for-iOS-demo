@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="HomeCollectionViewCell" id="Aas-5h-1Rr" customClass="HomeCollectionViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="183" height="198"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                <rect key="frame" x="0.0" y="0.0" width="183" height="198"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="4b2-LW-eZs">
+                        <rect key="frame" x="0.0" y="0.0" width="183" height="170"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="婚礼MV" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0nt-H3-ezg">
+                        <rect key="frame" x="0.0" y="180" width="183" height="15"/>
+                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="12"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+            </view>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="4b2-LW-eZs" secondAttribute="trailing" id="8Md-7Q-06o"/>
+                <constraint firstItem="0nt-H3-ezg" firstAttribute="leading" secondItem="Aas-5h-1Rr" secondAttribute="leading" id="RYP-HZ-OTp"/>
+                <constraint firstAttribute="trailing" secondItem="0nt-H3-ezg" secondAttribute="trailing" id="Wk8-aY-9SO"/>
+                <constraint firstItem="4b2-LW-eZs" firstAttribute="top" secondItem="Aas-5h-1Rr" secondAttribute="top" id="Ymt-Vm-sBw"/>
+                <constraint firstAttribute="bottom" secondItem="0nt-H3-ezg" secondAttribute="bottom" constant="3" id="Z0P-O9-H1L"/>
+                <constraint firstItem="4b2-LW-eZs" firstAttribute="leading" secondItem="Aas-5h-1Rr" secondAttribute="leading" id="uNj-YX-K5p"/>
+                <constraint firstItem="0nt-H3-ezg" firstAttribute="top" secondItem="4b2-LW-eZs" secondAttribute="bottom" constant="10" id="vnC-zu-wM5"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="hct-cT-itf"/>
+            <connections>
+                <outlet property="image" destination="4b2-LW-eZs" id="2Hd-xS-GY0"/>
+                <outlet property="text" destination="0nt-H3-ezg" id="tTD-11-Cc8"/>
+            </connections>
+        </collectionViewCell>
+    </objects>
+</document>
