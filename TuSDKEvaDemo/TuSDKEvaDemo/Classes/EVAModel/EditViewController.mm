@@ -28,6 +28,7 @@ TuSDKEvaPlayerDelegate, MultiPickerDelegate, UITextFieldDelegate, TuSDKEvaExport
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *previewWidth;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *previewHeight;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *sliderWidth;
+@property (weak, nonatomic) IBOutlet UIView *replaceView;
 
 @property (weak, nonatomic) IBOutlet UIView *preview;
 @property (weak, nonatomic) IBOutlet UIButton *playBtn;
@@ -76,6 +77,35 @@ TuSDKEvaPlayerDelegate, MultiPickerDelegate, UITextFieldDelegate, TuSDKEvaExport
     [super viewDidLoad];
     
     [self commonInit];
+    
+    // 添加后台、前台切换的通知
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(enterBackFromFront) name:UIApplicationWillResignActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(enterFrontFromBack) name:UIApplicationDidBecomeActiveNotification object:nil];
+    
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
+        self.navigationController.interactivePopGestureRecognizer.enabled = NO;
+    }
+    // 移除掉 Preview 避免两个playview的视图同时暂用内存渲染资源
+    // 尤其是在低配置的机型上，需要注意
+    NSMutableArray *childs = [NSMutableArray array];
+    [self.navigationController.childViewControllers enumerateObjectsUsingBlock:^(__kindof UIViewController * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if (![obj isKindOfClass:NSClassFromString(@"EVAPreviewViewController")]) {
+            [childs addObject:obj];
+        }
+    }];
+    [self.navigationController setViewControllers:childs];
+
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
+        self.navigationController.interactivePopGestureRecognizer.enabled = YES;
+    }
 }
 
 
@@ -98,6 +128,7 @@ TuSDKEvaPlayerDelegate, MultiPickerDelegate, UITextFieldDelegate, TuSDKEvaExport
     if (_session) {
         [_session destory];
     }
+    NSLog(@"EditViewController ------ dealloc");
 }
 
 - (void)commonInit {
@@ -135,13 +166,13 @@ TuSDKEvaPlayerDelegate, MultiPickerDelegate, UITextFieldDelegate, TuSDKEvaExport
 /**
  在这里适配下视频视图
  */
-- (void)viewDidAppear:(BOOL)animated {
+- (void)viewWillAppear:(BOOL)animated {
     if (self.evaTemplate == nil) return;
     if (_evaPlayer == nil) {
         // 页面布局
         // 视频预览视图宽高
-        CGFloat sWidth  = self.previewSuperView.bounds.size.width;
-        CGFloat sHeight = self.previewSuperView.bounds.size.height;
+        CGFloat sWidth  = [UIScreen mainScreen].bounds.size.width;
+        CGFloat sHeight = sWidth == 375.0 ? 350 : (sWidth < 375.0 ? 250 : sWidth);
         CGFloat vWidth  = self.evaTemplate.videoSize.width;
         CGFloat vHeight = self.evaTemplate.videoSize.height;
         
@@ -172,6 +203,23 @@ TuSDKEvaPlayerDelegate, MultiPickerDelegate, UITextFieldDelegate, TuSDKEvaExport
         [self.evaPlayer load];
         self.volmSlider.value = 1.0;
     }
+}
+
+
+#pragma mark - back & front
+- (void)enterBackFromFront {
+    if (self.evaPlayer && self.evaPlayer.status == TuSDKMediaPlayerStatusPlaying) {
+        [self tapPreview:nil];
+    }
+    
+    if (_session && _session.status == TuSDKMediaExportSessionStatusExporting) {
+        [_session cancelExport];
+    }
+}
+
+
+- (void)enterFrontFromBack {
+    
 }
 
 
@@ -224,12 +272,48 @@ TuSDKEvaPlayerDelegate, MultiPickerDelegate, UITextFieldDelegate, TuSDKEvaExport
 //            cell.typeImage.image = [UIImage imageNamed:@"video_ic"];
             cell.typeText.text = @" 视频 ";
         }
-        cell.backgroundImage.image = [UIImage imageWithContentsOfFile:origin.assetURL.path];
-        if (cell.backgroundImage.image == nil) {
-            cell.backgroundImage.image = [self getVideoPreViewImage:origin.assetURL];
-        }
+        
+        // 解决加载大图卡顿的问题
+        cell.tag = indexPath.row;
+        CGRect imageBounds = cell.backgroundImage.bounds;
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+            if ([origin needVideoRenderer]) {
+                // video
+                UIImage *image = [self getVideoPreViewImage:origin.assetURL];
+                [self setImage:image forCell:cell inBounds:imageBounds atIndex:indexPath.row];
+            } else {
+                [origin requestImageWithResultHandler:^(UIImage * _Nullable result) {
+                    UIImage *image = result;
+                    [self setImage:image forCell:cell inBounds:imageBounds atIndex:indexPath.row];
+                }];
+            }
+        });
     }
     return cell;
+}
+
+- (void)setImage:(UIImage *)image forCell:(EditCollectionViewCell *)cell inBounds:(CGRect)imageBounds atIndex:(NSInteger)index {
+    
+    //redraw image using device context
+    CGSize size = image.size;
+    if (image.size.width > image.size.height) {
+        // 宽图片
+        size = CGSizeMake(imageBounds.size.width, imageBounds.size.width * (image.size.height/image.size.width));
+    } else {
+        // 高图片
+        size = CGSizeMake(imageBounds.size.height * (image.size.width/image.size.height), imageBounds.size.height);
+    }
+    UIGraphicsBeginImageContextWithOptions(size, NO, 0);
+    [image drawInRect:CGRectMake(0, 0, size.width, size.height)];
+    image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    //set image on main thread, but only if index still matches up
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (index == cell.tag) {
+            cell.backgroundImage.image = image;
+        }
+    });
+
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -271,6 +355,10 @@ TuSDKEvaPlayerDelegate, MultiPickerDelegate, UITextFieldDelegate, TuSDKEvaExport
     [self requestAVAsset:phAsset completion:^(PHAsset *inputPhAsset, NSObject *returnValue) {
         dispatch_async(dispatch_get_main_queue(), ^{
             if (inputPhAsset.mediaType == PHAssetMediaTypeVideo) {
+                if (!weakSelf.evaTemplate.options.isCanReplaceVideo && !weakAsset.isReplace) {
+                    [TuSDKProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"视频最大选择个数：%ld", weakSelf.evaTemplate.options.replaceMaxVideoCount]];
+                    return;
+                }
                 // 去进行视频编辑
                 VideoEditViewController *edit = [[VideoEditViewController alloc] initWithNibName:nil bundle:nil];
                 edit.inputAssets = @[(AVAsset *)returnValue];
@@ -279,7 +367,7 @@ TuSDKEvaPlayerDelegate, MultiPickerDelegate, UITextFieldDelegate, TuSDKEvaExport
                     [weakSelf.navigationController popToViewController:weakSelf animated:YES];
                     weakAsset.assetURL = outputUrl;
                     [weakSelf.collectionView reloadData];
-                    [weakSelf resetEvaTemplate];
+                    [weakSelf replaceEvaTemplate];
                 }];
                 [picker showViewController:edit sender:nil];
             } else if (inputPhAsset.mediaType == PHAssetMediaTypeImage) {
@@ -292,7 +380,7 @@ TuSDKEvaPlayerDelegate, MultiPickerDelegate, UITextFieldDelegate, TuSDKEvaExport
                     [weakSelf.navigationController popToViewController:weakSelf animated:YES];
                     weakAsset.assetURL = outputUrl;
                     [weakSelf.collectionView reloadData];
-                    [weakSelf resetEvaTemplate];
+                    [weakSelf replaceEvaTemplate];
                 }];
                 [picker showViewController:edit sender:nil];
             }
@@ -359,7 +447,7 @@ TuSDKEvaPlayerDelegate, MultiPickerDelegate, UITextFieldDelegate, TuSDKEvaExport
     [vc setSelectedMusic:^(NSString * _Nonnull musicPath) {
         if (musicPath == nil || [musicPath isEqualToString:weakSelf.selectedMusicPath]) return;
         weakSelf.selectedMusicPath = musicPath;
-        [weakSelf resetEvaTemplate];
+        [weakSelf replaceEvaTemplate];
     }];
     [self presentViewController:vc animated:YES completion:nil];
 }
@@ -384,7 +472,7 @@ TuSDKEvaPlayerDelegate, MultiPickerDelegate, UITextFieldDelegate, TuSDKEvaExport
 
 
 // 替换资源后，播放器重载资源
-- (void)resetEvaTemplate {
+- (void)replaceEvaTemplate {
     if (_saving)return;
     [self stopEvaPlayer];
     
@@ -455,7 +543,7 @@ TuSDKEvaPlayerDelegate, MultiPickerDelegate, UITextFieldDelegate, TuSDKEvaExport
     
     // 必须停止/暂停播放器
     [self.evaPlayer stop];
-    
+    self.evaSlider.value = 0.0;
     
     // 导出配置
     TuSDKEvaExportSessionSettings *exportSettings = [[TuSDKEvaExportSessionSettings alloc] init];
@@ -518,7 +606,7 @@ TuSDKEvaPlayerDelegate, MultiPickerDelegate, UITextFieldDelegate, TuSDKEvaExport
     textAsset.text = textField.text;
     _replaceText[[NSString stringWithFormat:@"%ld", _index]] = @"YES";
     [self.collectionView reloadData];
-    [self resetEvaTemplate];
+    [self replaceEvaTemplate];
     [textField resignFirstResponder];
     return YES;
 }
@@ -535,7 +623,8 @@ TuSDKEvaPlayerDelegate, MultiPickerDelegate, UITextFieldDelegate, TuSDKEvaExport
  @since      v1.0.0
  */
 - (void)mediaEvaExportSession:(TuSDKEvaExportSession *_Nonnull)exportSession progressChanged:(CGFloat)percent outputTime:(CMTime)outputTime;{
-    [[TuSDK shared].messageHub showProgress:percent status:[NSString stringWithFormat:@"正在导出 %.0f%%",percent*100]];
+    NSLog(@"---%f", percent);
+    [TuSDKProgressHUD showProgress:percent status:[NSString stringWithFormat:@"正在导出 %.0f%%",percent*100]];
 }
 
 /**

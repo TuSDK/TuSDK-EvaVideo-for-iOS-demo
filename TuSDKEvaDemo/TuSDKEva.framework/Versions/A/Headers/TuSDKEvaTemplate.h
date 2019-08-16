@@ -11,7 +11,11 @@
 #import "TuSDKEvaFontAssetManager.h"
 #import "TuSDKEvaTextAssetManager.h"
 #import "TuSDKEvaAudioAssetManager.h"
+
+#define TuSDKEvaTemplateLoadResourceProgressNotification @"TuSDKEvaTemplateLoadResourceProgressNotification"
+
 @protocol TuSDKEvaTemplateDelegate;
+@class TuSDKEvaTemplateOptions;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -22,22 +26,20 @@ NS_ASSUME_NONNULL_BEGIN
 @interface TuSDKEvaTemplate : NSObject
 
 /**
- 根据 bundlePath 初始化 (fileName 的根目录)
-
- evaAudioAssetPath 资源根目录
+ 根据 evaBundlePath 初始化
+ 
+ evaBundlePath 资源路径
  @since v1.0.0
  */
-- (instancetype)initWithBundlePath:(NSString *)bundlePath jsonFileName:(NSString *)fileName;
++ (instancetype)initWithEvaBundlePath:(NSString *)evaBundlePath;
+
 
 /**
- 加载一个 zip 模板
-
- @param zipFileBundlePath zip 模板地址
- @param fileName json 文件名称
- @param progressHandler 进度回调
- @param completionHandler 完成回调
+ 模板配置选项
+ 
+ @since v1.0.0
  */
-+ (void)loadWithZipFileBundlePath:(NSString *)zipFileBundlePath jsonFileName:(NSString *)fileName progressHandler:(void (^)(CGFloat progress))progressHandler completionHandler:(void (^)(TuSDKEvaTemplate* evaTemplate, NSError * _Nullable error))completionHandler;
+@property (nonatomic, strong) TuSDKEvaTemplateOptions *options;
 
 /**
  模板事件委托
@@ -50,52 +52,53 @@ NS_ASSUME_NONNULL_BEGIN
  
  @since v1.0.0
  */
-@property (nonatomic,copy,readonly)NSString *bundlePath;
+@property (nonatomic, copy, readonly) NSString *evaBundlePath;
 
 /**
- json 资源文件名称
+ 资源文件管理器
  
  @since v1.0.0
  */
-@property (nonatomic,copy,readonly)NSString *fileName;
+@property (nonatomic, strong, readonly) TuSDKAOFile *file;
+
 
 /**
  配置文件内容
  
  @since v1.0.0
  */
-@property (nonatomic,copy,readonly)NSString *jsonString;
+@property (nonatomic,copy,readonly) NSString *jsonString;
 
 /**
  模板视频宽高
  
  @since v1.0.0
  */
-@property (nonatomic,readonly)CGSize videoSize;
+@property (nonatomic,readonly) CGSize videoSize;
 
 /**
  图片资源管理器
  @since v1.0.0
  */
-@property (nonnull,readonly)TuSDKEvaImageAssetManager *imageAssetManager;
+@property (nonnull,readonly) TuSDKEvaImageAssetManager *imageAssetManager;
 
 /**
  字体资源管理器
  @since v1.0.0
  */
-@property (nonnull,readonly)TuSDKEvaFontAssetManager *fontAssetManager;
+@property (nonnull,readonly) TuSDKEvaFontAssetManager *fontAssetManager;
 
 /**
  文字资源管理器
  @since v1.0.0
  */
-@property (nonnull,readonly)TuSDKEvaTextAssetManager *textAssetManager;
+@property (nonnull,readonly) TuSDKEvaTextAssetManager *textAssetManager;
 
 /**
  音频资源管理器
  @since v1.0.0
  */
-@property (nonnull,readonly)TuSDKEvaAudioAssetManager *audioAssetManager;
+@property (nonnull,readonly) TuSDKEvaAudioAssetManager *audioAssetManager;
 
 /**
  重置模板占位资源
@@ -121,6 +124,43 @@ NS_ASSUME_NONNULL_BEGIN
  @since v1.0.0
  */
 - (void)evaTemplate:(TuSDKEvaTemplate *)evaTemplate loadedProgress:(CGFloat)progress;
+
+@end
+
+
+
+
+/**
+ AE 模板 选项
+ @since v1.0.0
+ */
+@interface TuSDKEvaTemplateOptions : NSObject
+
+/**
+ 视频可替换的最大数量, 默认9个
+ 
+ @since v1.0.0
+ */
+@property (nonatomic, assign) NSInteger replaceMaxVideoCount;
+
+/**
+ 图片渲染时图片的压缩比，用于适配低配置的手机尤其是6p及以下，默认是1.0
+ 
+ @since v1.0.0
+ */
+@property (nonatomic, assign) float scale;
+
+/**
+ 已经替换的视频数量
+ @since v1.0.0
+ */
+@property (nonatomic, assign) NSInteger alreadyReplaceVideoCount;
+
+/**
+ 是否还能替换视频
+ @since v1.0.0
+ */
+@property (nonatomic, assign, readonly) BOOL isCanReplaceVideo;
 
 @end
 

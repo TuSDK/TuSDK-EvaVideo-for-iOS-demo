@@ -32,13 +32,13 @@ NS_ASSUME_NONNULL_BEGIN
  输入的图片资源
  @since v1.0.0
  */
-@property (nonatomic,readonly)TuSDKEvaImageAsset *inputImageAsset;
+@property (nonatomic,readonly) TuSDKEvaImageAsset *inputImageAsset;
 
 /**
  imageAsset 图片资产图片指针
  @since v1.0.0
  */
-@property (nonatomic,readonly)tutu::EvaImageImplPtr evaImagePtr;
+@property (nonatomic,readonly) tutu::EvaImageImplPtr evaImagePtr;
 
 @end
 

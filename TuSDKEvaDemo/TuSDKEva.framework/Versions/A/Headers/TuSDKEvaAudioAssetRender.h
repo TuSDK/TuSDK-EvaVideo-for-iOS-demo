@@ -32,7 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
  输入的音频资源
  @since v1.0.0
  */
-@property (nonatomic,readonly)TuSDKEvaAudioAsset *inputAudioAsset;
+@property (nonatomic,readonly) TuSDKEvaAudioAsset *inputAudioAsset;
 
 /**
  * 播放器的音频播放量，从0.0到1.0的线性范围。

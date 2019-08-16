@@ -19,7 +19,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     
-    [TuSDK initSdkWithAppKey:@"8d0ad6cca31401a7-04-ewdjn1"];
+    [TuSDK initSdkWithAppKey:@"321801d8c3f6a82a-04-ewdjn1"];
     // 可选: 设置日志输出级别 (默认不输出)
     [TuSDK setLogLevel:lsqLogLevelDEBUG];
     // 设置弹框时，背景按钮不可点击
@@ -52,6 +52,14 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    
+}
+
+- (void)applicationDidReceiveMemoryWarning:(UIApplication *)application {
+    // 接收到内存警告
+    NSLog(@"=========================================");
+    NSLog(@"++++++++++++++内存警告+++++++++++++++++++++");
+    NSLog(@"=========================================");
 }
 
 

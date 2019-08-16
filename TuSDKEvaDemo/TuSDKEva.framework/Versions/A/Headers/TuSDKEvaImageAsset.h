@@ -16,6 +16,8 @@ typedef NSURL* TuSDKEvaImageAssetURL;
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class TuSDKEvaTemplate;
+
 /**
  AE 模板图片占位资源
  */
@@ -24,11 +26,11 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  初始化 TuSDKEvaImageAsset
 
- @param bundlePath 资源包根目录
+ @param evaTemplate eva模板
  @return TuSDKEvaImageAsset
  @since v1.0.0
  */
-- (instancetype)initWithBundlePath:(NSString*)bundlePath evaImageAsset:(tutu::EvaImageAssetPtr)evaImageAsset;
+- (instancetype)initWithEvaTemplate:(TuSDKEvaTemplate*)evaTemplate evaImageAsset:(tutu::EvaImageAssetPtr)evaImageAsset;
 
 /**
  输入的 Eva 图片
@@ -40,19 +42,26 @@ NS_ASSUME_NONNULL_BEGIN
  资产id
  @since v1.0.0
  */
-@property (nonatomic,readonly)TuSDKEvaImageAssetID assetId;
+@property (nonatomic,readonly) TuSDKEvaImageAssetID assetId;
 
 /**
  资源包目录
  @since v1.0.0
  */
-@property (nonatomic,readonly)NSString* bundlePath;
+@property (nonatomic, weak, readonly) TuSDKEvaTemplate* evaTemplate;
+
+
+/**
+ 是否替换了
+ @since v1.0.0
+ */
+@property (nonatomic, assign, readonly) BOOL isReplace;
 
 /**
  资源完整路径
  @since v1.0.0 ([NSURL fileURLWithPath])
  */
-@property (nonatomic)TuSDKEvaImageAssetURL assetURL;
+@property (nonatomic) TuSDKEvaImageAssetURL assetURL;
 
 /**
  标记是否需要重新加载模板
@@ -64,7 +73,7 @@ NS_ASSUME_NONNULL_BEGIN
  默认资源完整路径
  @since v1.0.0 ([NSURL fileURLWithPath])
  */
-@property (nonatomic,readonly)TuSDKEvaImageAssetURL defaultAssetURL;
+@property (nonatomic,readonly) TuSDKEvaImageAssetURL defaultAssetURL;
 
 /**
  资产宽高
@@ -108,7 +117,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param resultHandler 完成回调
  @since v1.0.0
  */
-- (void)requestImageWithResultHandler:(void (^)(NSData *__nullable result))resultHandler;
+- (void)requestImageWithResultHandler:(void (^)(UIImage *__nullable result))resultHandler;
 
  /**
   请求视频资产

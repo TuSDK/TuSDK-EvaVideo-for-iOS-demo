@@ -149,7 +149,7 @@ typedef NS_ENUM(NSUInteger,lsqVideoCameraFaceDetectionResultType) {
 
 /**
  *  禁止触摸曝光功能 (默认: NO)
- *  @since v3.5.0
+ *  @since v3.4.2
  */
 @property (nonatomic) BOOL disableTapExposure;
 
@@ -333,7 +333,7 @@ typedef NS_ENUM(NSUInteger,lsqVideoCameraFaceDetectionResultType) {
  获取当前摄像头的 activeFormat
 
  @return activeFormat
- @since v3.5.0
+ @since v3.4.2
  */
 - (AVCaptureDeviceFormat *_Nullable)getInputCameraDeviceFormat;
 
@@ -344,7 +344,7 @@ typedef NS_ENUM(NSUInteger,lsqVideoCameraFaceDetectionResultType) {
  @param duration 曝光时长，可以用AVCaptureExposureDurationCurrent
  @param ISO 曝光感应度 范围在[minISO maxISO]
  @return 是否设置成功
- @since v3.5.0
+ @since v3.4.2
  */
 - (BOOL)exposureModeCustomCustomWithDuration:(CMTime)duration ISO:(float)ISO;
 

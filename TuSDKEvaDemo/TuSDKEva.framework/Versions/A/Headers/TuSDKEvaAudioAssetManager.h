@@ -15,6 +15,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class TuSDKEvaTemplate;
+
 /**
  Eva 音频资源管理器
  @since v1.0.0
@@ -24,37 +26,44 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  初始化 TuSDKEvaAudioAssetManager
 
- @param bundlePath 音频资源根目录
+ @param evaTemplate eva模板
  @return TuSDKEvaAudioAssetManager
  @since v1.0.0
  */
-- (instancetype)initWithBundlePath:(NSString *)bundlePath evaAudios:(std::map<std::string, std::shared_ptr<tutu::EvaAudioAsset>>)audios;
+- (instancetype)initWithEvaTemplate:(TuSDKEvaTemplate *)evaTemplate evaAudios:(std::map<std::string, std::shared_ptr<tutu::EvaAudioAsset>>)audios;
 
 /**
- 资源文件根目录
+ 资源模板
  
  @since v1.0.0
  */
-@property (nonatomic,copy,readonly)NSString *bundlePath;
+@property (nonatomic, weak, readonly) TuSDKEvaTemplate *evaTemplate;
+
+/**
+ 资源文件加载进度
+ 
+ @since v1.0.0
+ */
+@property (nonatomic, assign, readonly) CGFloat progress;
 
 /**
  AE 模板中所有音频资源
  
  @since v1.0.0
  */
-@property (nonatomic,readonly)NSArray<TuSDKEvaAudioAsset *> *assets;
+@property (nonatomic,readonly) NSArray<TuSDKEvaAudioAsset *> *assets;
 
 /**
  AE 模板中需要替换的图片资源列表
  
  @since v1.0.0
  */
-@property (nonatomic,readonly)NSArray<TuSDKEvaAudioAsset *> *placeholderAssets;
+@property (nonatomic,readonly) NSArray<TuSDKEvaAudioAsset *> *placeholderAssets;
 
 /**
  evaCompositions
  */
-@property (nonatomic,readonly)NSArray<TuSDKEvaAudioAssetRender *> *renders;
+@property (nonatomic,readonly) NSArray<TuSDKEvaAudioAssetRender *> *renders;
 
 /**
  返回供 EVA 使用的 EvaAudioAssetPtr

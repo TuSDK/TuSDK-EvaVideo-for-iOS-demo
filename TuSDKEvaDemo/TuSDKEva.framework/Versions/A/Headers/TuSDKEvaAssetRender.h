@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
  设置当前 Render 是否被启用
  @since v1.0.0
  */
-@property (nonatomic)BOOL enableRender;
+@property (nonatomic) BOOL enableRender;
 
 /**
  绘制一帧数据

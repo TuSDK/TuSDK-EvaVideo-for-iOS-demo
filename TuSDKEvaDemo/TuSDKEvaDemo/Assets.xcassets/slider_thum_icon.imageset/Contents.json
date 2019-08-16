@@ -7,6 +7,7 @@
     {
       "idiom" : "universal",
       "filename" : "slider_thum_icon@2x.png",
+      "compression-type" : "automatic",
       "scale" : "2x"
     },
     {

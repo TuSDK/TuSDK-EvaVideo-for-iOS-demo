@@ -107,6 +107,22 @@ namespace tutu
 		tutu::EvaJustification justification = tutu::EvaJustification::kLEFT_ALIGN;
 		// 字间距
 		int tracking = 0;
+		// 仿粗体
+		bool fauxBold{ false };
+		// 仿斜体
+		bool fauxItalic{ false };
+		// 全部大写字母
+		bool allCaps{ false };
+		// 小型大写字母
+		bool smallCaps{ false };
+		// 上标
+		bool superscript{ false };
+		// 下标
+		bool subscript{ false };
+		// 是垂直缩放
+		float verticalScale{ 0 };
+		// 水平缩放
+		float horizontalScale{ 0 };
 		// 行高
 		double lineHeight = 0;
 		// 基线

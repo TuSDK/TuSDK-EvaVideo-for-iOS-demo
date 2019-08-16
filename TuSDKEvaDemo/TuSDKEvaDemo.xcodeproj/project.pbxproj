@@ -13,10 +13,9 @@
 		45F0B2B42299FB18006D5F99 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 45F0B2B32299FB18006D5F99 /* Assets.xcassets */; };
 		45F0B2B72299FB18006D5F99 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 45F0B2B52299FB18006D5F99 /* LaunchScreen.storyboard */; };
 		45F0B2BA2299FB18006D5F99 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 45F0B2B92299FB18006D5F99 /* main.m */; };
-		D728973F22D840B500BEF620 /* TuSDKEva.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D728973B22D840B500BEF620 /* TuSDKEva.framework */; };
-		D728974022D840B500BEF620 /* libyuv.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D728973C22D840B500BEF620 /* libyuv.framework */; };
-		D728974122D840B500BEF620 /* TuSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D728973D22D840B500BEF620 /* TuSDK.framework */; };
-		D728974222D840B500BEF620 /* TuSDKVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D728973E22D840B500BEF620 /* TuSDKVideo.framework */; };
+		D711E9DE22FC1EC200545604 /* libresolv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = D7E350E022E6BD2E005166DE /* libresolv.tbd */; };
+		D72A774122F4040E006DB467 /* libiconv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 45B6077C22B8DF9900A9F3A6 /* libiconv.tbd */; };
+		D72A775C22F7BF69006DB467 /* 08-cover.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D72A775B22F7BF69006DB467 /* 08-cover.jpg */; };
 		D77418DB22CA338D0025625C /* City Sunshine.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D77418C122CA338D0025625C /* City Sunshine.mp3 */; };
 		D77418DC22CA338D0025625C /* Rush.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D77418C222CA338D0025625C /* Rush.mp3 */; };
 		D77418DD22CA338D0025625C /* Eye of Forgiveness.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D77418C322CA338D0025625C /* Eye of Forgiveness.mp3 */; };
@@ -25,11 +24,10 @@
 		D77418E022CA338D0025625C /* Pickled Pink.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D77418C622CA338D0025625C /* Pickled Pink.mp3 */; };
 		D77418E122CA338D0025625C /* home_bg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D77418C822CA338D0025625C /* home_bg.jpg */; };
 		D77418E222CA338D0025625C /* default_bg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D77418C922CA338D0025625C /* default_bg.jpg */; };
-		D77418F422CA33AC0025625C /* jsonModel in Resources */ = {isa = PBXBuildFile; fileRef = D77418F322CA33AC0025625C /* jsonModel */; };
 		D77418FF22CA35D90025625C /* 02-cover.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D77418F722CA35D80025625C /* 02-cover.jpg */; };
 		D774190022CA35D90025625C /* 06-cover.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D77418F822CA35D80025625C /* 06-cover.jpg */; };
 		D774190122CA35D90025625C /* 04-cover.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D77418F922CA35D80025625C /* 04-cover.jpg */; };
-		D774190222CA35D90025625C /* 08-cover.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D77418FA22CA35D80025625C /* 08-cover.jpg */; };
+		D774190222CA35D90025625C /* 12-cover.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D77418FA22CA35D80025625C /* 12-cover.jpg */; };
 		D774190422CA35D90025625C /* 01-cover.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D77418FC22CA35D90025625C /* 01-cover.jpg */; };
 		D774190522CA35D90025625C /* 07-cover.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D77418FD22CA35D90025625C /* 07-cover.jpg */; };
 		D774190822CB68D20025625C /* sample_watermark.png in Resources */ = {isa = PBXBuildFile; fileRef = D774190722CB68D20025625C /* sample_watermark.png */; };
@@ -72,10 +70,15 @@
 		D7E956E122C60B6D00749D6E /* VideoCuteMaskView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D7E956E022C60B6D00749D6E /* VideoCuteMaskView.xib */; };
 		D7E956E422C618CE00749D6E /* VideoCuteView.m in Sources */ = {isa = PBXBuildFile; fileRef = D7E956E322C618CE00749D6E /* VideoCuteView.m */; };
 		D7E956E622C619F800749D6E /* VideoCuteView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D7E956E522C619F800749D6E /* VideoCuteView.xib */; };
+		F82EEB252305555400CBABBA /* TuSDKVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F82EEB222305555300CBABBA /* TuSDKVideo.framework */; };
+		F82EEB262305555400CBABBA /* TuSDKEva.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F82EEB232305555300CBABBA /* TuSDKEva.framework */; };
+		F82EEB272305555400CBABBA /* TuSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F82EEB242305555400CBABBA /* TuSDK.framework */; };
+		F82EEB292306447700CBABBA /* libyuv.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F82EEB282306447700CBABBA /* libyuv.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		45B606F322B733C700A9F3A6 /* TuSDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = TuSDK.bundle; sourceTree = "<group>"; };
+		45B6077C22B8DF9900A9F3A6 /* libiconv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.tbd; path = usr/lib/libiconv.tbd; sourceTree = SDKROOT; };
 		45CE225B22AE12EC0080DEE1 /* TuSDKFramework.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TuSDKFramework.h; sourceTree = "<group>"; };
 		45F0B2A72299FB18006D5F99 /* TuSDKEvaDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TuSDKEvaDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		45F0B2AA2299FB18006D5F99 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -85,10 +88,7 @@
 		45F0B2B62299FB18006D5F99 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		45F0B2B82299FB18006D5F99 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		45F0B2B92299FB18006D5F99 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		D728973B22D840B500BEF620 /* TuSDKEva.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TuSDKEva.framework; sourceTree = "<group>"; };
-		D728973C22D840B500BEF620 /* libyuv.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = libyuv.framework; sourceTree = "<group>"; };
-		D728973D22D840B500BEF620 /* TuSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TuSDK.framework; sourceTree = "<group>"; };
-		D728973E22D840B500BEF620 /* TuSDKVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TuSDKVideo.framework; sourceTree = "<group>"; };
+		D72A775B22F7BF69006DB467 /* 08-cover.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "08-cover.jpg"; sourceTree = "<group>"; };
 		D77418C122CA338D0025625C /* City Sunshine.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "City Sunshine.mp3"; sourceTree = "<group>"; };
 		D77418C222CA338D0025625C /* Rush.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Rush.mp3; sourceTree = "<group>"; };
 		D77418C322CA338D0025625C /* Eye of Forgiveness.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Eye of Forgiveness.mp3"; sourceTree = "<group>"; };
@@ -97,11 +97,10 @@
 		D77418C622CA338D0025625C /* Pickled Pink.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Pickled Pink.mp3"; sourceTree = "<group>"; };
 		D77418C822CA338D0025625C /* home_bg.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = home_bg.jpg; sourceTree = "<group>"; };
 		D77418C922CA338D0025625C /* default_bg.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = default_bg.jpg; sourceTree = "<group>"; };
-		D77418F322CA33AC0025625C /* jsonModel */ = {isa = PBXFileReference; lastKnownFileType = folder; name = jsonModel; path = resource/jsonModel; sourceTree = "<group>"; };
 		D77418F722CA35D80025625C /* 02-cover.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "02-cover.jpg"; sourceTree = "<group>"; };
 		D77418F822CA35D80025625C /* 06-cover.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "06-cover.jpg"; sourceTree = "<group>"; };
 		D77418F922CA35D80025625C /* 04-cover.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "04-cover.jpg"; sourceTree = "<group>"; };
-		D77418FA22CA35D80025625C /* 08-cover.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "08-cover.jpg"; sourceTree = "<group>"; };
+		D77418FA22CA35D80025625C /* 12-cover.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "12-cover.jpg"; sourceTree = "<group>"; };
 		D77418FC22CA35D90025625C /* 01-cover.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "01-cover.jpg"; sourceTree = "<group>"; };
 		D77418FD22CA35D90025625C /* 07-cover.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "07-cover.jpg"; sourceTree = "<group>"; };
 		D774190722CB68D20025625C /* sample_watermark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sample_watermark.png; sourceTree = "<group>"; };
@@ -132,6 +131,7 @@
 		D7E09E2322CF459A00353D4E /* 09-cover.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "09-cover.jpg"; sourceTree = "<group>"; };
 		D7E09E2522CF472F00353D4E /* 05-cover.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "05-cover.jpg"; sourceTree = "<group>"; };
 		D7E09E2722CF4D1C00353D4E /* 03-cover.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "03-cover.jpg"; sourceTree = "<group>"; };
+		D7E350E022E6BD2E005166DE /* libresolv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libresolv.tbd; path = usr/lib/libresolv.tbd; sourceTree = SDKROOT; };
 		D7E9564122C3644D00749D6E /* EditViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EditViewController.xib; sourceTree = "<group>"; };
 		D7E9564322C37EC900749D6E /* EditCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EditCollectionViewCell.h; sourceTree = "<group>"; };
 		D7E9564422C37EC900749D6E /* EditCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EditCollectionViewCell.m; sourceTree = "<group>"; };
@@ -170,6 +170,10 @@
 		D7E956E222C618CE00749D6E /* VideoCuteView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VideoCuteView.h; sourceTree = "<group>"; };
 		D7E956E322C618CE00749D6E /* VideoCuteView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VideoCuteView.m; sourceTree = "<group>"; };
 		D7E956E522C619F800749D6E /* VideoCuteView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = VideoCuteView.xib; sourceTree = "<group>"; };
+		F82EEB222305555300CBABBA /* TuSDKVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TuSDKVideo.framework; sourceTree = "<group>"; };
+		F82EEB232305555300CBABBA /* TuSDKEva.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TuSDKEva.framework; sourceTree = "<group>"; };
+		F82EEB242305555400CBABBA /* TuSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TuSDK.framework; sourceTree = "<group>"; };
+		F82EEB282306447700CBABBA /* libyuv.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = libyuv.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -177,10 +181,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D728973F22D840B500BEF620 /* TuSDKEva.framework in Frameworks */,
-				D728974022D840B500BEF620 /* libyuv.framework in Frameworks */,
-				D728974122D840B500BEF620 /* TuSDK.framework in Frameworks */,
-				D728974222D840B500BEF620 /* TuSDKVideo.framework in Frameworks */,
+				F82EEB252305555400CBABBA /* TuSDKVideo.framework in Frameworks */,
+				F82EEB292306447700CBABBA /* libyuv.framework in Frameworks */,
+				F82EEB262305555400CBABBA /* TuSDKEva.framework in Frameworks */,
+				D711E9DE22FC1EC200545604 /* libresolv.tbd in Frameworks */,
+				F82EEB272305555400CBABBA /* TuSDK.framework in Frameworks */,
+				D72A774122F4040E006DB467 /* libiconv.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -209,7 +215,6 @@
 			children = (
 				D774191622CC8F210025625C /* 视频融合文档-iOS.md */,
 				D77418BF22CA338D0025625C /* resource */,
-				D77418F322CA33AC0025625C /* jsonModel */,
 				D789D61422C30A84008D8F18 /* Classes */,
 				45F0B2AA2299FB18006D5F99 /* AppDelegate.h */,
 				45F0B2AB2299FB18006D5F99 /* AppDelegate.mm */,
@@ -227,10 +232,12 @@
 		45F0B2C02299FB23006D5F99 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				D728973C22D840B500BEF620 /* libyuv.framework */,
-				D728973D22D840B500BEF620 /* TuSDK.framework */,
-				D728973B22D840B500BEF620 /* TuSDKEva.framework */,
-				D728973E22D840B500BEF620 /* TuSDKVideo.framework */,
+				F82EEB282306447700CBABBA /* libyuv.framework */,
+				F82EEB242305555400CBABBA /* TuSDK.framework */,
+				F82EEB232305555300CBABBA /* TuSDKEva.framework */,
+				F82EEB222305555300CBABBA /* TuSDKVideo.framework */,
+				D7E350E022E6BD2E005166DE /* libresolv.tbd */,
+				45B6077C22B8DF9900A9F3A6 /* libiconv.tbd */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -271,9 +278,10 @@
 				D7E09E2522CF472F00353D4E /* 05-cover.jpg */,
 				D77418F822CA35D80025625C /* 06-cover.jpg */,
 				D77418FD22CA35D90025625C /* 07-cover.jpg */,
-				D77418FA22CA35D80025625C /* 08-cover.jpg */,
+				D77418FA22CA35D80025625C /* 12-cover.jpg */,
 				D7E09E2322CF459A00353D4E /* 09-cover.jpg */,
 				D7B43EBD22D754DE009476E5 /* 10-cover.jpg */,
+				D72A775B22F7BF69006DB467 /* 08-cover.jpg */,
 			);
 			path = images;
 			sourceTree = "<group>";
@@ -452,13 +460,12 @@
 			files = (
 				D7E09E2622CF472F00353D4E /* 05-cover.jpg in Resources */,
 				D77418DB22CA338D0025625C /* City Sunshine.mp3 in Resources */,
-				D77418F422CA33AC0025625C /* jsonModel in Resources */,
 				D77418E122CA338D0025625C /* home_bg.jpg in Resources */,
 				D774190422CA35D90025625C /* 01-cover.jpg in Resources */,
 				D774190122CA35D90025625C /* 04-cover.jpg in Resources */,
 				D7E9564222C3644D00749D6E /* EditViewController.xib in Resources */,
 				D774190522CA35D90025625C /* 07-cover.jpg in Resources */,
-				D774190222CA35D90025625C /* 08-cover.jpg in Resources */,
+				D774190222CA35D90025625C /* 12-cover.jpg in Resources */,
 				D77418DF22CA338D0025625C /* Motions.mp3 in Resources */,
 				D7E09E2422CF459A00353D4E /* 09-cover.jpg in Resources */,
 				D774191722CC8F210025625C /* 视频融合文档-iOS.md in Resources */,
@@ -478,6 +485,7 @@
 				D774190822CB68D20025625C /* sample_watermark.png in Resources */,
 				D7E956E622C619F800749D6E /* VideoCuteView.xib in Resources */,
 				D7E956B922C5B8C000749D6E /* VideoEditViewController.xib in Resources */,
+				D72A775C22F7BF69006DB467 /* 08-cover.jpg in Resources */,
 				D77418E222CA338D0025625C /* default_bg.jpg in Resources */,
 				45F0B2B42299FB18006D5F99 /* Assets.xcassets in Resources */,
 				D7E956D622C5C68300749D6E /* ImageEditViewController.xib in Resources */,
@@ -685,8 +693,9 @@
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"$(inherited)",
+					"-w",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.lasque.TuSDKEvaDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = org.lasque.tutu.TuSDKEvaDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -720,8 +729,9 @@
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"$(inherited)",
+					"-w",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.lasque.TuSDKEvaDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = org.lasque.tutu.TuSDKEvaDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = 1;
 			};

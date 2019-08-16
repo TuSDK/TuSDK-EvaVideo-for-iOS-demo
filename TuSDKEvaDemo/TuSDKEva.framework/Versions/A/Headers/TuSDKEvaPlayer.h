@@ -10,7 +10,7 @@
 #import "TuSDKEvaImport.h"
 #import "TuSDKEvaTemplate.h"
 
-@protocol TuSDKEvaPlayerDelegate;
+@protocol TuSDKEvaPlayerDelegate, TuSDKEvaPlayerLoadDelegate;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -40,6 +40,12 @@ NS_ASSUME_NONNULL_BEGIN
  @since     v1.0.0
  */
 @property (nonatomic,weak) id<TuSDKEvaPlayerDelegate> _Nullable delegate;
+
+/**
+ EvaPlayer 加载资源事件委托
+ @since     v1.0.0
+ */
+@property (nonatomic,weak) id<TuSDKEvaPlayerLoadDelegate> _Nullable loadDelegate;
 
 /**
  当前视频播放器状态
@@ -98,5 +104,27 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
+
+@protocol TuSDKEvaPlayerLoadDelegate <NSObject>
+
+/**
+ 进度改变事件
+ 
+ @param player 当前播放器
+ @param percent (0 - 1)
+ @since v1.0.0
+ */
+- (void)evaPlayer:(TuSDKEvaPlayer *_Nonnull)player loadProgressChanged:(CGFloat)percent;
+
+/**
+ 播放器状态改变事件
+ 
+ @param player 当前播放器
+ @param status 当前播放器状态
+ @since      v1.0.0
+ */
+- (void)evaPlayer:(TuSDKEvaPlayer *_Nonnull)player loadStatusChanged:(TuSDKMediaPlayerLoadStatus)status;
+
+@end
 
 NS_ASSUME_NONNULL_END

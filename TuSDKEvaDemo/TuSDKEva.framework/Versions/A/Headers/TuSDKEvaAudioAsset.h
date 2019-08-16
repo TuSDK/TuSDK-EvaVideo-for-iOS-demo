@@ -17,21 +17,30 @@ typedef NSURL* TuSDKEvaAudioAssetURL;
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class TuSDKEvaTemplate;
+
 @interface TuSDKEvaAudioAsset : NSObject
 
 /**
  EvaImageAsset
  
- @param bundlePath 资源包根目录
+ @param evaTemplate 资源模板
  @return TuEvaSDKImageAsset
  */
-- (instancetype)initWithBundlePath:(NSString*)bundlePath evaAudioAsset:(tutu::EvaAudioAssetPtr)evaAudioAsset;
+- (instancetype)initWithEvaTemplate:(TuSDKEvaTemplate* )evaTemplate evaAudioAsset:(tutu::EvaAudioAssetPtr)evaAudioAsset;
 
 /**
- 资源包目录
+ 资源模板
  @since v1.0.0
  */
-@property (nonatomic,readonly)NSString* bundlePath;
+@property (nonatomic, weak, readonly)TuSDKEvaTemplate* evaTemplate;
+
+
+/**
+ 是否替换了
+ @since v1.0.0
+ */
+@property (nonatomic, assign, readonly) BOOL isReplace;
 
 /**
  输入的 Eva 音效
@@ -43,25 +52,25 @@ NS_ASSUME_NONNULL_BEGIN
  资产id
  @since v1.0.0
  */
-@property (nonatomic,readonly)TuSDKEvaAudioAssetID assetId;
+@property (nonatomic,readonly) TuSDKEvaAudioAssetID assetId;
 
 /**
  资源完整路径
  @since v1.0.0
  */
-@property (nonatomic)TuSDKEvaAudioAssetURL assetURL;
+@property (nonatomic) TuSDKEvaAudioAssetURL assetURL;
 
 /**
  默认资源完整路径
  @since v1.0.0 ([NSURL fileURLWithPath])
  */
-@property (nonatomic,readonly)TuSDKEvaAudioAssetURL defaultAssetURL;
+@property (nonatomic,readonly) TuSDKEvaAudioAssetURL defaultAssetURL;
 
 /**
  标记是否需要重新加载模板
  @since v1.0.0
  */
-@property (nonatomic)BOOL needRelaod;
+@property (nonatomic) BOOL needRelaod;
 
 /**
  该资源是否为占位资源，资源可以替换

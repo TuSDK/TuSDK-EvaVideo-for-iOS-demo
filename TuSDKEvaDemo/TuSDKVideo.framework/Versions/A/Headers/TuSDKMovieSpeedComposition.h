@@ -59,6 +59,8 @@ typedef NS_ENUM(NSInteger,lsqMovieSpeedCompositionStatus)
 - (void)onMovieSpeedComposition:(TuSDKMovieSpeedComposition *)composition statusChanged:(lsqMovieSpeedCompositionStatus)status;
 // 结果通知代理
 - (void)onMovieSpeedComposition:(TuSDKMovieSpeedComposition *)composition result:(TuSDKVideoResult *)result;
+// 视频处理进度通知代理
+- (void)onMovieSpeedComposition:(TuSDKMovieSpeedComposition *)composition progress:(CGFloat)progress;
 
 @end
 

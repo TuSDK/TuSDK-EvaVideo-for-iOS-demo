@@ -11,7 +11,7 @@
 #import "EditViewController.h"
 #import "EvaProgressSlider.h"
 
-@interface EVAPreviewViewController ()<TuSDKEvaPlayerDelegate>
+@interface EVAPreviewViewController ()<TuSDKEvaPlayerDelegate, TuSDKEvaPlayerLoadDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *preview;
 @property (weak, nonatomic) IBOutlet UIView *previewSuperView;
@@ -22,6 +22,10 @@
 @property (weak, nonatomic) IBOutlet UILabel *music;
 @property (weak, nonatomic) IBOutlet UILabel *evaTitle;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *previewWidth;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *makeButtonBottom;
+@property (weak, nonatomic) IBOutlet UIStackView *textSuperView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *makeButtonTop;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *previewSuperHeight;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *previewHeight;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *sliderWidth;
 
@@ -71,25 +75,41 @@
     
     [self commonInit];
     
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [self loadTemplate];
-    });
+    [self loadTemplate];
+    
+    // 添加后台、前台切换的通知
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(enterBackFromFront) name:UIApplicationWillResignActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(enterFrontFromBack) name:UIApplicationDidBecomeActiveNotification object:nil];
 }
 
 
 - (void)dealloc {
     NSLog(@"EVAPreviewViewController------dealloc");
-    if (self.evaPlayer) {
-        [self.evaPlayer stop];
-        [self.evaPlayer destory];
-        self.evaPlayer = nil;
+    if (_evaPlayer) {
+        [_evaPlayer stop];
+        [_evaPlayer destory];
+        _evaPlayer = nil;
     }
     
-    if (self.evaTemplate) {
-        self.evaTemplate = nil;
+    if (_evaTemplate) {
+        _evaTemplate = nil;
+    }
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
+        self.navigationController.interactivePopGestureRecognizer.enabled = NO;
     }
 }
 
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
+        self.navigationController.interactivePopGestureRecognizer.enabled = YES;
+    }
+}
 
 - (void)commonInit {
     
@@ -107,6 +127,16 @@
     _medias = [NSMutableArray array];
     _audios = [NSMutableArray array];
     [self refreshUI];
+    self.previewSuperView.hidden = YES;
+    self.slider.hidden = YES;
+    self.textSuperView.hidden = YES;
+    self.evaTitle.hidden = YES;
+    self.makeBtn.hidden = YES;
+    
+    if ([UIScreen mainScreen].bounds.size.height < 667.0) {
+        self.makeButtonTop.constant = 20;
+        self.makeButtonBottom.constant = 20;
+    }
 }
 
 
@@ -118,8 +148,11 @@
     if (self.evaTemplate == nil) return;
     [self.view layoutIfNeeded];
     // 视频预览视图宽高
-    CGFloat sWidth  = self.previewSuperView.bounds.size.width;
-    CGFloat sHeight = self.previewSuperView.bounds.size.height;
+//    CGFloat sWidth  = self.previewSuperView.bounds.size.width;
+//    CGFloat sHeight = self.previewSuperView.bounds.size.height;
+    // 视频预览视图宽高
+    CGFloat sWidth  = [UIScreen mainScreen].bounds.size.width;
+    CGFloat sHeight = sWidth < 375.0 ? 250 : sWidth;
     CGFloat vWidth  = self.evaTemplate.videoSize.width;
     CGFloat vHeight = self.evaTemplate.videoSize.height;
     
@@ -142,52 +175,95 @@
         }
     }
     self.sliderWidth.constant = self.previewWidth.constant;
-    [self.view layoutIfNeeded];
+    self.previewSuperHeight.constant = self.previewHeight.constant;
+    [UIView animateWithDuration:0.25 animations:^{
+       [self.view layoutIfNeeded];
+    } completion:^(BOOL finished) {
+        self.previewSuperView.hidden = NO;
+        self.slider.hidden = NO;
+        self.textSuperView.hidden = NO;
+        self.evaTitle.hidden = NO;
+        self.makeBtn.hidden = NO;
+    }];
 }
 
 
 // 加载模板
 - (void)loadTemplate {
+//    _jsonDataPath = [NSString stringWithFormat:@"%@/jsonModel/lsq_eva_2.eva", [[NSBundle mainBundle] bundlePath]];
     
-//    _jsonDataPath = [[NSBundle mainBundle] pathForResource:@"happy" ofType:@"zip"];
+    TuSDKEvaTemplateOptions *options = [[TuSDKEvaTemplateOptions alloc] init];
+    options.replaceMaxVideoCount = [UIDevice lsqDevicePlatform] <= TuSDKDevicePlatform_iPhone6p ? 5 : 9;
+    options.scale = [UIDevice lsqDevicePlatform] <= TuSDKDevicePlatform_iPhone6p ? 0.3 : 1.0;
+    TuSDKEvaTemplate *evaTemplate = [TuSDKEvaTemplate initWithEvaBundlePath:_evaPath];
+    evaTemplate.options = options;
+    _texts = [NSMutableArray arrayWithArray:evaTemplate.textAssetManager.placeholderAssets];
+    _medias = [NSMutableArray arrayWithArray:evaTemplate.imageAssetManager.placeholderAssets];
+    _audios = [NSMutableArray arrayWithArray:evaTemplate.audioAssetManager.placeholderAssets];
+
+    _evaTemplate = evaTemplate;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self refreshUI];
+        
+        self.evaPlayer = [[TuSDKEvaPlayer alloc] initWithEvaTemplate:evaTemplate inHolderView:self.preview];
+        self.evaPlayer.delegate = self;
+        self.evaPlayer.loadDelegate = self;
+        dispatch_async(dispatch_get_global_queue(DISPATCH_TARGET_QUEUE_DEFAULT, 0), ^{
+            [self.evaPlayer load];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.evaPlayer play];
+            });
+        });
+    });
+}
+
+#pragma mark - back & front
+- (void)enterBackFromFront {
+    if (self.evaPlayer && self.evaPlayer.status == TuSDKMediaPlayerStatusPlaying) {
+        [self tapPreView:nil];
+    }
+}
+
+- (void)enterFrontFromBack {
     
-    __weak typeof(self) weakSelf = self;
-    [TuSDKEvaTemplate loadWithZipFileBundlePath:_jsonDataPath jsonFileName:@"data.json" progressHandler:^(CGFloat progress) {
-        dispatch_sync(dispatch_get_main_queue(), ^{
-            [[[TuSDK shared] messageHub] showProgress:progress status:@"正在解压..."];
-        });
-    } completionHandler:^(TuSDKEvaTemplate * _Nonnull evaTemplate, NSError * _Nullable error) {
-        
-        dispatch_sync(dispatch_get_main_queue(), ^{
-            [[[TuSDK shared] messageHub] dismiss];
-        });
-        
-        weakSelf.evaTemplate = evaTemplate;
-        weakSelf.texts = [NSMutableArray arrayWithArray:evaTemplate.textAssetManager.placeholderAssets];
-        weakSelf.medias = [NSMutableArray arrayWithArray:evaTemplate.imageAssetManager.placeholderAssets];
-        weakSelf.audios = [NSMutableArray arrayWithArray:evaTemplate.audioAssetManager.placeholderAssets];
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            
-            [weakSelf refreshUI];
-            weakSelf.evaPlayer = [[TuSDKEvaPlayer alloc] initWithEvaTemplate:evaTemplate inHolderView:weakSelf.preview];
-            weakSelf.evaPlayer.delegate = weakSelf;
-            
-            [weakSelf.evaPlayer load];
-            [weakSelf.evaPlayer play];
-            
-        });
-    }];
 }
 
 
 #pragma mark - TuSDKEvaPlayerDelegate
 - (void)evaPlayer:(TuSDKEvaPlayer *)player statusChanged:(TuSDKMediaPlayerStatus)status {
     self.playBtn.hidden = self.evaPlayer.status == TuSDKMediaPlayerStatusPlaying;
+    
+    if (status == TuSDKMediaPlayerStatusPlaying) {
+        // 避免进度未达到1，一直显示的问题
+        [[TuSDK shared].messageHub dismiss];
+    }
 }
 
 - (void)evaPlayer:(TuSDKEvaPlayer *)player progressChanged:(CGFloat)percent outputTime:(CMTime)outputTime {
     self.slider.value = percent;
+}
+
+#pragma mark - TuSDKEvaPlayerLoadDelegate
+- (void)evaPlayer:(TuSDKEvaPlayer *)player loadProgressChanged:(CGFloat)percent {
+    dispatch_sync(dispatch_get_main_queue(), ^{
+//        lsqLInfo(@"++++%f", percent);
+        [TuSDKProgressHUD showProgress:percent status:@"资源加载中..." maskType:TuSDKProgressHUDMaskTypeBlack];
+    });
+}
+
+- (void)evaPlayer:(TuSDKEvaPlayer *)player loadStatusChanged:(TuSDKMediaPlayerLoadStatus)status {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        switch (status) {
+            case TuSDKMediaPlayerLoadStatusFailed:
+                [TuSDKProgressHUD showErrorWithStatus:@"加载失败"];
+                break;
+            case TuSDKMediaPlayerLoadStatusCompleted:
+                [TuSDKProgressHUD dismiss];
+                break;
+            default:
+                break;
+        }
+    });
 }
 
 

@@ -14,16 +14,19 @@
             <connections>
                 <outlet property="evaTitle" destination="ZOn-5Y-vTh" id="gaF-Kv-eSU"/>
                 <outlet property="makeBtn" destination="T5R-0d-5aa" id="z1F-mZ-c2L"/>
+                <outlet property="makeButtonBottom" destination="29O-wO-HUh" id="z38-UM-nSN"/>
                 <outlet property="media" destination="gOE-UF-0Ud" id="tLL-wM-REi"/>
                 <outlet property="music" destination="96O-JY-6Au" id="I2h-2u-IAg"/>
                 <outlet property="playBtn" destination="TEB-qL-TaP" id="nvi-Q1-lza"/>
                 <outlet property="preview" destination="pih-2R-spc" id="Kdx-kz-OyO"/>
                 <outlet property="previewHeight" destination="AOk-La-dNy" id="XaY-PZ-geB"/>
+                <outlet property="previewSuperHeight" destination="zUt-7K-DwG" id="We0-YL-RJI"/>
                 <outlet property="previewSuperView" destination="Nfv-9T-ilD" id="Jfv-b3-cJi"/>
                 <outlet property="previewWidth" destination="Ue4-jC-Gg3" id="b9n-Uh-DtG"/>
                 <outlet property="slider" destination="Ab6-Gs-9ID" id="YZX-66-hPg"/>
                 <outlet property="sliderWidth" destination="2om-b0-FXL" id="UTV-Lf-gau"/>
                 <outlet property="text" destination="9UH-hf-fEO" id="s2P-QL-cR0"/>
+                <outlet property="textSuperView" destination="Fs8-Zd-iN9" id="hhv-im-OJd"/>
                 <outlet property="view" destination="iN0-l3-epB" id="hVt-mm-yOZ"/>
             </connections>
         </placeholder>
@@ -50,7 +53,7 @@
                     </connections>
                 </button>
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Fs8-Zd-iN9">
-                    <rect key="frame" x="20" y="463" width="335" height="100"/>
+                    <rect key="frame" x="20" y="456" width="335" height="100"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="可替换内容：" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qdo-Au-Paz">
                             <rect key="frame" x="0.0" y="0.0" width="335" height="25"/>
@@ -85,16 +88,16 @@
                     </constraints>
                 </stackView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="小清新婚礼派对电子请柬" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZOn-5Y-vTh">
-                    <rect key="frame" x="20" y="419" width="335" height="24"/>
+                    <rect key="frame" x="20" y="412" width="335" height="24"/>
                     <fontDescription key="fontDescription" name="PingFangSC-Semibold" family="PingFang SC" pointSize="17"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Nfv-9T-ilD">
-                    <rect key="frame" x="20" y="20" width="335" height="367"/>
+                    <rect key="frame" x="0.0" y="20" width="375" height="367"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pih-2R-spc">
-                            <rect key="frame" x="0.0" y="0.0" width="335" height="367"/>
+                            <rect key="frame" x="20" y="0.0" width="335" height="367"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="367" id="AOk-La-dNy"/>
@@ -102,17 +105,18 @@
                             </constraints>
                         </view>
                         <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TEB-qL-TaP">
-                            <rect key="frame" x="143.5" y="159.5" width="48" height="48"/>
+                            <rect key="frame" x="163.5" y="159.5" width="48" height="48"/>
                             <state key="normal" image="play_ic"/>
                         </button>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <gestureRecognizers/>
                     <constraints>
+                        <constraint firstItem="pih-2R-spc" firstAttribute="top" secondItem="Nfv-9T-ilD" secondAttribute="top" id="1Yf-Df-0Vr"/>
                         <constraint firstItem="TEB-qL-TaP" firstAttribute="centerX" secondItem="Nfv-9T-ilD" secondAttribute="centerX" id="HXF-39-Gf7"/>
                         <constraint firstItem="pih-2R-spc" firstAttribute="centerX" secondItem="Nfv-9T-ilD" secondAttribute="centerX" id="MuB-1y-9Fx"/>
-                        <constraint firstItem="pih-2R-spc" firstAttribute="centerY" secondItem="Nfv-9T-ilD" secondAttribute="centerY" id="SLk-od-Dgr"/>
                         <constraint firstItem="TEB-qL-TaP" firstAttribute="centerY" secondItem="Nfv-9T-ilD" secondAttribute="centerY" id="t4R-dB-79x"/>
+                        <constraint firstAttribute="height" constant="367" id="zUt-7K-DwG"/>
                     </constraints>
                     <connections>
                         <outletCollection property="gestureRecognizers" destination="2AB-Ci-VhP" appends="YES" id="d7x-t4-OEV"/>
@@ -139,16 +143,15 @@
                 <constraint firstItem="Fs8-Zd-iN9" firstAttribute="top" secondItem="ZOn-5Y-vTh" secondAttribute="bottom" constant="20" id="Bx1-Zg-fQO"/>
                 <constraint firstItem="ZOn-5Y-vTh" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="20" id="CBN-NN-stD"/>
                 <constraint firstItem="T5R-0d-5aa" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="KMR-Kk-WBG"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="Nfv-9T-ilD" secondAttribute="trailing" constant="20" id="KNk-Xp-BmJ"/>
-                <constraint firstItem="T5R-0d-5aa" firstAttribute="top" secondItem="Fs8-Zd-iN9" secondAttribute="bottom" constant="27" id="LNv-8Y-tJS"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="Nfv-9T-ilD" secondAttribute="trailing" id="KNk-Xp-BmJ"/>
                 <constraint firstItem="Ab6-Gs-9ID" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="MTV-To-qOx"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="IEw-pQ-XTy" secondAttribute="trailing" id="Mjl-AD-t3F"/>
-                <constraint firstItem="ZOn-5Y-vTh" firstAttribute="top" secondItem="Nfv-9T-ilD" secondAttribute="bottom" constant="32" id="SeW-n7-Jzb"/>
+                <constraint firstItem="ZOn-5Y-vTh" firstAttribute="top" secondItem="Nfv-9T-ilD" secondAttribute="bottom" constant="25" id="SeW-n7-Jzb"/>
                 <constraint firstItem="IEw-pQ-XTy" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="VxE-7L-Ytb"/>
                 <constraint firstItem="Nfv-9T-ilD" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="X3g-g0-33E"/>
                 <constraint firstItem="Ab6-Gs-9ID" firstAttribute="bottom" secondItem="pih-2R-spc" secondAttribute="bottom" constant="20" id="eKC-wD-tDf"/>
                 <constraint firstItem="IEw-pQ-XTy" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="jtM-M4-6Kv"/>
-                <constraint firstItem="Nfv-9T-ilD" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="20" id="llc-Rm-bVz"/>
+                <constraint firstItem="Nfv-9T-ilD" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="llc-Rm-bVz"/>
                 <constraint firstItem="Fs8-Zd-iN9" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="20" id="qpS-Jn-cFz"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="ZOn-5Y-vTh" secondAttribute="trailing" constant="20" id="qvo-oe-7gh"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="Fs8-Zd-iN9" secondAttribute="trailing" constant="20" id="yDg-Nu-WJD"/>

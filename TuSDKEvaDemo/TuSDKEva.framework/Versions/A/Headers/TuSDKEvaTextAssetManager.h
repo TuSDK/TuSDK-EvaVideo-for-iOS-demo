@@ -33,7 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
  
  @since v1.0.0
  */
-@property (nonatomic,readonly)NSArray<TuSDKEvaTextAsset *> *placeholderAssets;
+@property (nonatomic,readonly) NSArray<TuSDKEvaTextAsset *> *placeholderAssets;
 
 /**
  还原占位资源，放弃修改项

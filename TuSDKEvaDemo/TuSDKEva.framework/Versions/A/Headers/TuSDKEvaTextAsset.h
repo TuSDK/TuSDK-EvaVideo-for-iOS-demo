@@ -40,14 +40,14 @@ NS_ASSUME_NONNULL_BEGIN
  
  @since v1.0.0
  */
-@property (nonatomic,copy,readonly)TuSDKEvaAssetText defaultAssetText;
+@property (nonatomic,copy,readonly) TuSDKEvaAssetText defaultAssetText;
 
 /**
  最终展示的文本内容 默认： placeholderText
  
  @since v1.0.0
  */
-@property (nonatomic,copy)TuSDKEvaAssetText text;
+@property (nonatomic,copy) TuSDKEvaAssetText text;
 
 /**
  该资源是否为占位资源，资源可以替换

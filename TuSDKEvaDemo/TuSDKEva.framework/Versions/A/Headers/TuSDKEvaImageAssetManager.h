@@ -16,38 +16,48 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class TuSDKEvaTemplate;
+
 /**
  图片资源管理器
  @since v1.0.0
  */
 @interface TuSDKEvaImageAssetManager : NSObject
 
-/**
- 初始化 TuSDKImageAssetManager
 
+/**
+ 初始化 TuSDKImageAssetManager 可配置参数
+ 
  @return eva 图片集合
  @since v1.0.0
  */
-- (instancetype)initWithBundlePath:(NSString *)bundlePath evaImages:(std::map<std::string, std::shared_ptr<tutu::EvaImageAsset>>)images;
+- (instancetype)initWithEvaTemplate:(TuSDKEvaTemplate *)evaTemplate evaImages:(std::map<std::string, std::shared_ptr<tutu::EvaImageAsset>>)images;
 
 /**
- 资源文件根目录
+ 资源模板
  
  @since v1.0.0
  */
-@property (nonatomic,copy,readonly)NSString *bundlePath;
+@property (nonatomic, weak, readonly) TuSDKEvaTemplate *evaTemplate;
+
+/**
+ 资源文件加载进度
+ 
+ @since v1.0.0
+ */
+@property (nonatomic, assign, readonly) CGFloat progress;
 
 /**
  AE 模板中需要替换的图片资源列表
  
  @since v1.0.0
  */
-@property (nonatomic,readonly)NSArray<TuSDKEvaImageAsset *> *placeholderAssets;
+@property (nonatomic,readonly) NSArray<TuSDKEvaImageAsset *> *placeholderAssets;
 
 /**
  evaCompositions
  */
-@property (nonatomic,readonly)NSArray<TuSDKEvaImageAssetRender *> *renders;
+@property (nonatomic,readonly) NSArray<TuSDKEvaImageAssetRender *> *renders;
 
 /**
  返回供 EVA 使用的 EvaImagePtr

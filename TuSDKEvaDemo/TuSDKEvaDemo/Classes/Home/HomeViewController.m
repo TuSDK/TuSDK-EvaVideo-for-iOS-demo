@@ -37,15 +37,16 @@
     [self.collectionView registerNib:[UINib nibWithNibName:@"HomeCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:@"HomeCollectionViewCell"];
     self.collectionViewLayout.delegate = self;
     
-    _models = @[@{@"name":@"九宫格",@"path":@"01-jiugongge", @"width": @(800), @"height": @(450), @"image":@"01-cover"},
-                @{@"name":@"趣味夏天旅行",@"path":@"03-quweixiatlianlvxing", @"width": @(800), @"height": @(1422), @"image":@"03-cover"},
-                @{@"name":@"十里桃花",@"path":@"02-shilitaohua", @"width": @(800), @"height": @(450), @"image":@"02-cover"},
-                @{@"name":@"Happy Wedding 1",@"path":@"04-happywedding", @"width": @(800), @"height": @(1422), @"image":@"04-cover"},
-                @{@"name":@"Happy Wedding 1",@"path":@"05-happywedding", @"width": @(800), @"height": @(1422), @"image":@"05-cover"},
-                @{@"name":@"亮缘节",@"path":@"07-liangyuanjie", @"width": @(800), @"height": @(450), @"image":@"07-cover"},
-                @{@"name":@"生日快乐",@"path":@"08-happybirthday", @"width": @(800), @"height": @(1422), @"image":@"08-cover"},
-                @{@"name":@"时尚潮流",@"path":@"09-shishangchaoliu", @"width": @(800), @"height": @(450), @"image":@"09-cover"},
-//                @{@"name":@"电影胶片",@"path":@"10-dianyingjiaopian", @"width": @(450), @"height": @(800), @"image":@"10-cover"},
+    _models = @[
+                @{@"name":@"九宫格",@"path":@"lsq_eva_24.eva", @"width": @(800), @"height": @(450), @"image":@"01-cover"},
+                @{@"name":@"趣味夏天旅行",@"path":@"lsq_eva_26.eva", @"width": @(800), @"height": @(1422), @"image":@"03-cover"},
+                @{@"name":@"十里桃花",@"path":@"lsq_eva_25.eva", @"width": @(800), @"height": @(450), @"image":@"02-cover"},
+                @{@"name":@"新婚快乐-蓝",@"path":@"lsq_eva_27.eva", @"width": @(800), @"height": @(1422), @"image":@"04-cover"},
+                @{@"name":@"新婚快乐-粉",@"path":@"lsq_eva_28.eva", @"width": @(800), @"height": @(1422), @"image":@"05-cover"},
+                @{@"name":@"婚礼纪念日",@"path":@"lsq_eva_29.eva", @"width": @(800), @"height": @(1422), @"image":@"06-cover"},
+                @{@"name":@"时尚潮流",@"path":@"lsq_eva_30.eva", @"width": @(800), @"height": @(450), @"image":@"09-cover"},
+                @{@"name":@"电影胶片",@"path":@"lsq_eva_31.eva", @"width": @(800), @"height": @(1422), @"image":@"10-cover"},
+                @{@"name":@"涂图视频融合介绍",@"path":@"lsq_eva_23.eva", @"width": @(800), @"height": @(600), @"image":@"08-cover"},
                 ];
 }
 
@@ -73,7 +74,8 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     EVAPreviewViewController *vc = [[EVAPreviewViewController alloc] initWithNibName:nil bundle:nil];
     NSDictionary *model = _models[indexPath.row];
-    vc.jsonDataPath = [NSString stringWithFormat:@"%@/jsonModel/%@.zip", [[NSBundle mainBundle] bundlePath], model[@"path"]];
+    NSString *bundleString = [[NSBundle mainBundle] pathForResource:@"TuSDK" ofType:@"bundle"];
+    vc.evaPath = [NSString stringWithFormat:@"%@/eva/%@", [[NSBundle bundleWithPath:bundleString] bundlePath], model[@"path"]];
     vc.modelTitle = model[@"name"];
     [self showViewController:vc sender:nil];
 }
@@ -86,7 +88,7 @@
     NSDictionary *model = _models[indexPath];
     CGFloat width = [model[@"width"] floatValue];
     CGFloat height = [model[@"height"] floatValue];
-    return kItemWidth * (height/width) + 25.0; // 25 是文字高度
+    return kItemWidth * (height/width) + 35.0; // 35 是文字高度
 }
 
 - (NSUInteger)columnCountInWaterFallLayout:(CollectionViewLayout *)waterFallLayout {

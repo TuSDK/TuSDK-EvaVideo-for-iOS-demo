@@ -19,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  资源文件路径
  */
-@property (nonatomic, strong) NSString *jsonDataPath;
+@property (nonatomic, strong) NSString *evaPath;
 
 /**
  模板名称

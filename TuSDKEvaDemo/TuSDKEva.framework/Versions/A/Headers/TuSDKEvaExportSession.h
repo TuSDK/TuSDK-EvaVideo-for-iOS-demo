@@ -41,7 +41,7 @@ NS_ASSUME_NONNULL_BEGIN
  当前状态
  @since      v3.0
  */
-@property (nonatomic,readonly)TuSDKMediaExportSessionStatus status;
+@property (nonatomic,readonly) TuSDKMediaExportSessionStatus status;
 
 /**
  开始导出

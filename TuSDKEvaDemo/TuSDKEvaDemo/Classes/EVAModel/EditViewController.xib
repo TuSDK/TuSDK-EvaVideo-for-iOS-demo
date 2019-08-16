@@ -20,6 +20,7 @@
                 <outlet property="previewHeight" destination="rtJ-23-qTs" id="HBH-Pf-8YF"/>
                 <outlet property="previewSuperView" destination="STi-mE-Cxd" id="gi1-i6-IdG"/>
                 <outlet property="previewWidth" destination="Wrp-mG-RoW" id="sbC-ZC-2OH"/>
+                <outlet property="replaceView" destination="EXl-DI-7tc" id="poW-lK-vfX"/>
                 <outlet property="resetBtn" destination="wCj-rx-DbV" id="KnX-Ok-W0H"/>
                 <outlet property="sliderWidth" destination="E0x-9J-LDw" id="7oe-cg-xWB"/>
                 <outlet property="textField" destination="DFR-70-DxA" id="LxQ-3E-QoY"/>
@@ -140,7 +141,7 @@
                     <inset key="titleEdgeInsets" minX="-5" minY="0.0" maxX="0.0" maxY="0.0"/>
                     <inset key="imageEdgeInsets" minX="-12" minY="0.0" maxX="0.0" maxY="0.0"/>
                     <state key="normal" title="替换背景音乐" image="bgmusic_ic">
-                        <color key="titleColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="titleColor" red="0.49019607840000001" green="0.49019607840000001" blue="0.49019607840000001" alpha="1" colorSpace="calibratedRGB"/>
                     </state>
                     <state key="highlighted" image="bgmusic_ic"/>
                     <connections>
@@ -152,7 +153,7 @@
                     <color key="backgroundColor" red="0.12941176470588234" green="0.12941176470588234" blue="0.12941176470588234" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <fontDescription key="fontDescription" type="system" weight="medium" pointSize="12"/>
                     <state key="normal" title="一键重置">
-                        <color key="titleColor" red="0.33333333329999998" green="0.33333333329999998" blue="0.33333333329999998" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="titleColor" red="0.49019607843137253" green="0.49019607843137253" blue="0.49019607843137253" alpha="1" colorSpace="calibratedRGB"/>
                     </state>
                     <connections>
                         <action selector="reset:" destination="-1" eventType="touchUpInside" id="mN3-9x-nrf"/>

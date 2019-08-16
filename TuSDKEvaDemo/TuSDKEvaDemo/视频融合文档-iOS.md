@@ -10,6 +10,11 @@
 - libyuv.framework
 - TuSDKEva.framework
 
+#### 系统库依赖
+- libresolv.tbd
+- libiconv.tbd
+
+
 #### 资源依赖
 
 - TuSDK.bundle文件 (权限认证在这里，需要开通对应的[权限]([https://tutucloud.com](https://tutucloud.com/))，导出拥有使用权限的包)
@@ -29,12 +34,11 @@
 
 ```objective-c
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-// Override point for customization after application launch.
 
-[TuSDK initSdkWithAppKey:@"8d0ad6cca31401a7-04-ewdjn1"];
-// 可选: 设置日志输出级别 (默认不输出)
-[TuSDK setLogLevel:lsqLogLevelDEBUG];
-return YES;
+    [TuSDK initSdkWithAppKey:@"8d0ad6cca31401a7-04-ewdjn1"];
+    // 可选: 设置日志输出级别 (默认不输出)
+    [TuSDK setLogLevel:lsqLogLevelDEBUG];
+    return YES;
 }
 ```
 
@@ -45,39 +49,54 @@ return YES;
 #### 模板加载
 
 模板加载使用的是`TuSDKEvaTemplate`类，这个类管理了模板资源的所有API。
-
-模板加载提供了两个API：一个是直接加载`json`资源文件，另一个是加载封装一个模板的所有资源的`.zip`包
-
-具体API是：
-
-- json文件加载
-
+- 模板加载
 ```objective-c
-/**
-根据 bundlePath 初始化 (fileName 的根目录)
 
-evaAudioAssetPath 资源根目录
+/**
+根据 evaBundlePath 初始化
+
+evaBundlePath 资源路径
 @since v1.0.0
 */
-- (instancetype)initWithBundlePath:(NSString *)bundlePath jsonFileName:(NSString *)fileName;
++ (instancetype)initWithEvaBundlePath:(NSString *)evaBundlePath;
+
 ```
 
-
-
-- 加载zip包(Demo中使用的是这种方式)
-
-- ```objective-c
+- 模板配置选项
+加载好模板`TuSDKEvaTemplate`后，可以通过配置对其进行限制。
+```objective-c
 /**
-加载一个 zip 模板
+模板配置选项
 
-@param zipFileBundlePath zip 模板地址
-@param fileName json 文件名称
-@param progressHandler 进度回调
-@param completionHandler 完成回调
+@since v1.0.0
 */
-+ (void)loadWithZipFileBundlePath:(NSString *)zipFileBundlePath jsonFileName:(NSString *)fileName progressHandler:(void (^)(CGFloat progress))progressHandler completionHandler:(void (^)(TuSDKEvaTemplate* evaTemplate, NSError * _Nullable error))completionHandler;
+@property (nonatomic, strong) TuSDKEvaTemplateOptions *options;
 ```
+目前支持的选项配置有两个，一个是可替换的最大视频数量，另一个是模板中加载图片时的压缩比(紧限于对源模板中的图片进行压缩)
+具体参数如下：
+```objective-c
+/**
+AE 模板 选项
+@since v1.0.0
+*/
+@interface TuSDKEvaTemplateOptions : NSObject
 
+/**
+视频可替换的最大数量, 默认9个
+
+@since v1.0.0
+*/
+@property (nonatomic, assign) NSInteger replaceMaxVideoCount;
+
+/**
+图片渲染时图片的压缩比，用于适配低配置的手机尤其是6p及以下，默认是1.0
+
+@since v1.0.0
+*/
+@property (nonatomic, assign) float scale;
+
+@end
+```
 
 
 #### 模板播放
@@ -95,6 +114,41 @@ evaAudioAssetPath 资源根目录
 @since v1.0.0
 */
 - (instancetype)initWithEvaTemplate:(TuSDKEvaTemplate *)evaTemplate inHolderView:(UIView *)holderView;
+```
+
+- 播放器加载代理回调
+加载代理设置API
+```objective-c
+/**
+EvaPlayer 加载资源事件委托
+@since     v1.0.0
+*/
+@property (nonatomic,weak) id<TuSDKEvaPlayerLoadDelegate> _Nullable loadDelegate;
+```
+
+代理回调API
+```objective-c
+@protocol TuSDKEvaPlayerLoadDelegate <NSObject>
+
+/**
+进度改变事件
+
+@param player 当前播放器
+@param percent (0 - 1)
+@since v1.0.0
+*/
+- (void)evaPlayer:(TuSDKEvaPlayer *_Nonnull)player loadProgressChanged:(CGFloat)percent;
+
+/**
+播放器状态改变事件
+
+@param player 当前播放器
+@param status 当前播放器状态
+@since      v1.0.0
+*/
+- (void)evaPlayer:(TuSDKEvaPlayer *_Nonnull)player loadStatusChanged:(TuSDKMediaPlayerLoadStatus)status;
+
+@end
 ```
 
 - 播放器状态控制API
@@ -131,6 +185,48 @@ evaAudioAssetPath 资源根目录
 - (void)seekToTime:(CMTime)outputTime;
 
 ```
+
+- 播放器播放状态进度回调
+播放进度代理设置API
+```objective-c
+/**
+EvaPlayer 事件委托
+@since     v1.0.0
+*/
+@property (nonatomic,weak) id<TuSDKEvaPlayerDelegate> _Nullable delegate;
+
+
+```
+播放进度代理回调
+```objective-c
+#pragma mark TuSDKEvaPlayerDelegate
+
+@protocol TuSDKEvaPlayerDelegate <NSObject>
+
+@required
+
+/**
+进度改变事件
+
+@param player 当前播放器
+@param percent (0 - 1)
+@param outputTime 当前帧所在持续时间
+@since v1.0.0
+*/
+- (void)evaPlayer:(TuSDKEvaPlayer *_Nonnull)player progressChanged:(CGFloat)percent outputTime:(CMTime)outputTime;
+
+/**
+播放器状态改变事件
+
+@param player 当前播放器
+@param status 当前播放器状态
+@since      v1.0.0
+*/
+- (void)evaPlayer:(TuSDKEvaPlayer *_Nonnull)player statusChanged:(TuSDKMediaPlayerStatus)status;
+
+@end
+```
+
 
 - 重新加载模板
 如果模板资源被替换了，想要预览，或者模板资源被替换后又重置回初始状态，那这个API就很有用。
@@ -196,22 +292,22 @@ _orgResources = [NSMutableArray array];
 [_orgResources addObjectsFromArray:_evaTemplate.textAssetManager.placeholderAssets];
 [_orgResources addObjectsFromArray:_evaTemplate.imageAssetManager.placeholderAssets];
 [_orgResources sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
-NSInteger start1 = 0.0, start2 = 0.0;
-if ([obj1 isKindOfClass:[TuSDKEvaImageAsset class]]) {
-TuSDKEvaImageAsset *image = (TuSDKEvaImageAsset *)obj1;
-start1 = image.inputEvaImageAssetPtr->startFrame;
-} else if ([obj1 isKindOfClass:[TuSDKEvaTextAsset class]]) {
-TuSDKEvaTextAsset *text = (TuSDKEvaTextAsset *)obj1;
-start1 = text.inputEvaTextAssetPtr->startFrame;
-}
-if ([obj2 isKindOfClass:[TuSDKEvaImageAsset class]]) {
-TuSDKEvaImageAsset *image = (TuSDKEvaImageAsset *)obj2;
-start2 = image.inputEvaImageAssetPtr->startFrame;
-} else if ([obj2 isKindOfClass:[TuSDKEvaTextAsset class]]) {
-TuSDKEvaTextAsset *text = (TuSDKEvaTextAsset *)obj2;
-start2 = text.inputEvaTextAssetPtr->startFrame;
-}
-return [[NSNumber numberWithInteger:start1] compare:[NSNumber numberWithInteger:start2]];
+    NSInteger start1 = 0.0, start2 = 0.0;
+    if ([obj1 isKindOfClass:[TuSDKEvaImageAsset class]]) {
+        TuSDKEvaImageAsset *image = (TuSDKEvaImageAsset *)obj1;
+        start1 = image.inputEvaImageAssetPtr->startFrame;
+    } else if ([obj1 isKindOfClass:[TuSDKEvaTextAsset class]]) {
+        TuSDKEvaTextAsset *text = (TuSDKEvaTextAsset *)obj1;
+        start1 = text.inputEvaTextAssetPtr->startFrame;
+    }
+    if ([obj2 isKindOfClass:[TuSDKEvaImageAsset class]]) {
+        TuSDKEvaImageAsset *image = (TuSDKEvaImageAsset *)obj2;
+        start2 = image.inputEvaImageAssetPtr->startFrame;
+    } else if ([obj2 isKindOfClass:[TuSDKEvaTextAsset class]]) {
+        TuSDKEvaTextAsset *text = (TuSDKEvaTextAsset *)obj2;
+        start2 = text.inputEvaTextAssetPtr->startFrame;
+    }
+    return [[NSNumber numberWithInteger:start1] compare:[NSNumber numberWithInteger:start2]];
 }];
 ```
 
@@ -380,9 +476,9 @@ _session = [[TuSDKEvaExportSession alloc] initWithEvaTemplate:_evaTemplate expor
 建议在控制器的`dealloc`方法中进行播放器的暂停和释放：
 ```objective-c
 if (_evaPlayer) {
-[_evaPlayer stop];
-[_evaPlayer destory];
-self.evaPlayer = nil;
+    [_evaPlayer stop];
+    [_evaPlayer destory];
+    self.evaPlayer = nil;
 }
 ```
 

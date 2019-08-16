@@ -167,6 +167,9 @@ static const NSTimeInterval kMinCutDuration = 3.0;
 }
 
 - (void)confirm {
+    if (_saver && _saver.status == TuSDKMediaExportSessionStatusExporting) {
+        return;
+    }
     [_moviePlayer pause];
     
     // 若截取时间与视频时长一致，则直接返回视频 URL

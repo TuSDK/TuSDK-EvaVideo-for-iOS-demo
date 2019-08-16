@@ -25,6 +25,8 @@ typedef void(*AssetReleaseProc)(const void* ptr, void* context);
 // 返回资源结果
 typedef std::tuple<void *, size_t, AssetReleaseProc> AssetResut;
 
+@class TuSDKEvaTemplate;
+
 /**
  图片资源管理器
  @since v1.0.0
@@ -32,19 +34,26 @@ typedef std::tuple<void *, size_t, AssetReleaseProc> AssetResut;
 @interface TuSDKEvaFontAssetManager : NSObject
 
 /**
- 根据 bundlePath 初始化
+ 根据 evaTemplate 初始化
  
- @param bundlePath 资源根目录
+ @param evaTemplate 模板
  @since v1.0.0
  */
-- (instancetype)initWithAssetBundlePath:(NSString *)bundlePath;
+- (instancetype)initWithEvaTemplate:(TuSDKEvaTemplate *)evaTemplate evaFonts:(std::map<std::string, std::shared_ptr<tutu::EvaFontInfo>>)fonts;
 
 /**
- 资源文件根目录
+ 资源模板
  
  @since v1.0.0
  */
-@property (nonatomic,copy,readonly)NSString *bundlePath;
+@property (nonatomic, weak, readonly) TuSDKEvaTemplate *evaTemplate;
+
+/**
+ 资源文件加载进度
+ 
+ @since v1.0.0
+ */
+@property (nonatomic, assign, readonly) CGFloat progress;
 
 /**
  返回供 EVA 使用的 AssetResut
