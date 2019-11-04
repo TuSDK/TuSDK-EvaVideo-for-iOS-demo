@@ -1,3 +1,0 @@
-*.eva filter=lfs diff=lfs merge=lfs -text
-*.lsq_eva_29.eva filter=lfs diff=lfs merge=lfs -text
-*.lsq_eva_25.eva filter=lfs diff=lfs merge=lfs -text
