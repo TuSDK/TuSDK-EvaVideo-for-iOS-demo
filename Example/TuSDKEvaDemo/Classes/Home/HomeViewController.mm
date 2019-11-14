@@ -44,12 +44,6 @@
     self.collectionView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
     
     NSArray *models =  @[
-//    @{@"name":@"夏日风情",@"path":@"15s.eva", @"width": @(400), @"height": @(600), @"image":@"51-cover"},
-//    @{@"name":@"夏日风情",@"path":@"15snull.eva", @"width": @(400), @"height": @(600), @"image":@"51-cover"},
-//    @{@"name":@"夏日风情",@"path":@"60s.eva", @"width": @(400), @"height": @(600), @"image":@"51-cover"},
-//    @{@"name":@"夏日风情",@"path":@"60snull.eva", @"width": @(400), @"height": @(600), @"image":@"51-cover"},
-//    @{@"name":@"夏日风情",@"path":@"new.eva", @"width": @(400), @"height": @(600), @"image":@"51-cover"},
-
         @{@"name":@"说爱你",@"path":@"lsq_eva_42.eva", @"width": @(450), @"height": @(800), @"image":@"42-cover"},
         @{@"name":@"字幕快闪",@"path":@"lsq_eva_43.eva", @"width": @(800), @"height": @(450), @"image":@"43-cover"},
         @{@"name":@"产品推广护肤品",@"path":@"lsq_eva_44.eva", @"width": @(450), @"height": @(800), @"image":@"44-cover"},
@@ -59,7 +53,6 @@
         @{@"name":@"简单视频展示",@"path":@"lsq_eva_48.eva", @"width": @(400), @"height": @(300), @"image":@"48-cover"},
         @{@"name":@"人员介绍",@"path":@"lsq_eva_49.eva", @"width": @(400), @"height": @(600), @"image":@"49-cover"},
         @{@"name":@"汽车介绍",@"path":@"lsq_eva_50.eva", @"width": @(800), @"height": @(450), @"image":@"50-cover"},
-        @{@"name":@"夏日风情",@"path":@"lsq_eva_51.eva", @"width": @(400), @"height": @(600), @"image":@"51-cover"},
         @{@"name":@"九宫格",@"path":@"lsq_eva_24.eva", @"width": @(800), @"height": @(450), @"image":@"01-cover"},
         @{@"name":@"趣味夏天旅行",@"path":@"lsq_eva_26.eva", @"width": @(800), @"height": @(1422), @"image":@"03-cover"},
         @{@"name":@"十里桃花",@"path":@"lsq_eva_25.eva", @"width": @(800), @"height": @(450), @"image":@"02-cover"},

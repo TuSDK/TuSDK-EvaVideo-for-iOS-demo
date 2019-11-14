@@ -48,7 +48,7 @@
 - (void)commonInit {
     _view = (UIView *)([[NSBundle mainBundle] loadNibNamed:@"MusicView" owner:self options:nil].firstObject);
     [self addSubview:_view];
-    _musics = @[@"City Sunshine",@"Eye of Forgiveness",@"Lovely Piano Song",@"Motions",@"Pickled Pink", @"Rush"];
+    _musics = @[@"City Sunshine",@"Eye of Forgiveness",@"Lovely Piano Song",@"Motions",@"Pickled Pink", @"Rush", @"test"];
     [_tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"MusicViewController_CellID"];
     _tableView.rowHeight = 54;
     _topConstant.constant = [UIDevice lsqIsDeviceiPhoneX] ? 44 : 20;

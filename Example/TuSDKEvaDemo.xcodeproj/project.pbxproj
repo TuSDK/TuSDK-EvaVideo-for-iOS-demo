@@ -58,6 +58,7 @@
 		D79815272358707900043ED3 /* 46-cover.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D798151D2358707700043ED3 /* 46-cover.jpg */; };
 		D79815282358707900043ED3 /* 44-cover.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D798151E2358707800043ED3 /* 44-cover.jpg */; };
 		D79815292358707900043ED3 /* 43-cover.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D798151F2358707900043ED3 /* 43-cover.jpg */; };
+		D7B1A830237D4FFB00BBD098 /* 核心API文档.md in Resources */ = {isa = PBXBuildFile; fileRef = D7B1A82F237D4FFB00BBD098 /* 核心API文档.md */; };
 		D7B43EBE22D754DE009476E5 /* 10-cover.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D7B43EBD22D754DE009476E5 /* 10-cover.jpg */; };
 		D7C156282370304000D4A519 /* TuSDKVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7C156242370304000D4A519 /* TuSDKVideo.framework */; };
 		D7C156292370304000D4A519 /* TuSDKEva.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7C156252370304000D4A519 /* TuSDKEva.framework */; };
@@ -161,6 +162,7 @@
 		D798151D2358707700043ED3 /* 46-cover.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "46-cover.jpg"; sourceTree = "<group>"; };
 		D798151E2358707800043ED3 /* 44-cover.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "44-cover.jpg"; sourceTree = "<group>"; };
 		D798151F2358707900043ED3 /* 43-cover.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "43-cover.jpg"; sourceTree = "<group>"; };
+		D7B1A82F237D4FFB00BBD098 /* 核心API文档.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = "核心API文档.md"; sourceTree = "<group>"; };
 		D7B43EBD22D754DE009476E5 /* 10-cover.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "10-cover.jpg"; sourceTree = "<group>"; };
 		D7C156242370304000D4A519 /* TuSDKVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TuSDKVideo.framework; sourceTree = "<group>"; };
 		D7C156252370304000D4A519 /* TuSDKEva.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TuSDKEva.framework; sourceTree = "<group>"; };
@@ -246,6 +248,7 @@
 		45F0B2A92299FB18006D5F99 /* TuSDKEvaDemo */ = {
 			isa = PBXGroup;
 			children = (
+				D7B1A82F237D4FFB00BBD098 /* 核心API文档.md */,
 				D71EB158235732EB004B0BA8 /* TuSDKEvaDemo.entitlements */,
 				D774191622CC8F210025625C /* 视频融合文档-iOS.md */,
 				D7911078236AD94800DE0293 /* lsq_eva_001.mp4 */,
@@ -559,6 +562,7 @@
 				D71E5AA1233B4893009D2FDC /* MusicView.xib in Resources */,
 				45F0B2B42299FB18006D5F99 /* Assets.xcassets in Resources */,
 				D79815262358707900043ED3 /* 50-cover.jpg in Resources */,
+				D7B1A830237D4FFB00BBD098 /* 核心API文档.md in Resources */,
 				D7E956D622C5C68300749D6E /* ImageEditViewController.xib in Resources */,
 				D77418DD22CA338D0025625C /* Eye of Forgiveness.mp3 in Resources */,
 				45F0B2B22299FB18006D5F99 /* Main.storyboard in Resources */,
@@ -749,7 +753,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 9U2KRZU6GT;
-				ENABLE_BITCODE = YES;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"../TuSDK/vendor/**",
@@ -790,7 +794,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 9U2KRZU6GT;
-				ENABLE_BITCODE = YES;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"../TuSDK/vendor/**",

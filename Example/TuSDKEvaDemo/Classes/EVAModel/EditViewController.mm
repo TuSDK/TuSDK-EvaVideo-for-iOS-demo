@@ -611,11 +611,11 @@ TuSDKEvaPlayerDelegate, TuSDKEvaPlayerLoadDelegate, MultiPickerDelegate, UITextF
     // 导出视频的尺寸
 //    exportSettings.outputSize = CGSizeMake(720, 1280);
     
-    // 导出视频的质量
-//    exportSettings.outputFileType = lsqFileTypeQuickTimeMovie;
+    // 导出视频的文件类型
+    exportSettings.outputFileType = lsqFileTypeQuickTimeMovie;
     
-    // 导出文件类型
-//    exportSettings.outputVideoQuality =
+    // 导出视频文件质量
+//    exportSettings.outputVideoQuality = TuSDKRecordVideoQuality_Default;
     
     // 设置水印
     exportSettings.waterMarkImage = [UIImage imageNamed:@"sample_watermark"];
