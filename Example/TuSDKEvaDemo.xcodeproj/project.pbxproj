@@ -58,6 +58,7 @@
 		D79815272358707900043ED3 /* 46-cover.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D798151D2358707700043ED3 /* 46-cover.jpg */; };
 		D79815282358707900043ED3 /* 44-cover.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D798151E2358707800043ED3 /* 44-cover.jpg */; };
 		D79815292358707900043ED3 /* 43-cover.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D798151F2358707900043ED3 /* 43-cover.jpg */; };
+		D798A29C239510760042549E /* test.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D798A29B239510750042549E /* test.mp3 */; };
 		D7B1A830237D4FFB00BBD098 /* 核心API文档.md in Resources */ = {isa = PBXBuildFile; fileRef = D7B1A82F237D4FFB00BBD098 /* 核心API文档.md */; };
 		D7B43EBE22D754DE009476E5 /* 10-cover.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D7B43EBD22D754DE009476E5 /* 10-cover.jpg */; };
 		D7C156282370304000D4A519 /* TuSDKVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7C156242370304000D4A519 /* TuSDKVideo.framework */; };
@@ -162,6 +163,7 @@
 		D798151D2358707700043ED3 /* 46-cover.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "46-cover.jpg"; sourceTree = "<group>"; };
 		D798151E2358707800043ED3 /* 44-cover.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "44-cover.jpg"; sourceTree = "<group>"; };
 		D798151F2358707900043ED3 /* 43-cover.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "43-cover.jpg"; sourceTree = "<group>"; };
+		D798A29B239510750042549E /* test.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = test.mp3; sourceTree = "<group>"; };
 		D7B1A82F237D4FFB00BBD098 /* 核心API文档.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = "核心API文档.md"; sourceTree = "<group>"; };
 		D7B43EBD22D754DE009476E5 /* 10-cover.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "10-cover.jpg"; sourceTree = "<group>"; };
 		D7C156242370304000D4A519 /* TuSDKVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TuSDKVideo.framework; sourceTree = "<group>"; };
@@ -309,6 +311,7 @@
 		D77418C022CA338D0025625C /* music */ = {
 			isa = PBXGroup;
 			children = (
+				D798A29B239510750042549E /* test.mp3 */,
 				D77418C122CA338D0025625C /* City Sunshine.mp3 */,
 				D77418C222CA338D0025625C /* Rush.mp3 */,
 				D77418C322CA338D0025625C /* Eye of Forgiveness.mp3 */,
@@ -539,6 +542,7 @@
 				D79815232358707900043ED3 /* 49-cover.jpg in Resources */,
 				D774191722CC8F210025625C /* 视频融合文档-iOS.md in Resources */,
 				45B606F422B733C700A9F3A6 /* TuSDK.bundle in Resources */,
+				D798A29C239510760042549E /* test.mp3 in Resources */,
 				D79815212358707900043ED3 /* 45-cover.jpg in Resources */,
 				D7911079236AD94800DE0293 /* lsq_eva_001.mp4 in Resources */,
 				45F0B2B72299FB18006D5F99 /* LaunchScreen.storyboard in Resources */,
@@ -759,6 +763,7 @@
 					"../TuSDK/vendor/**",
 					"$(PROJECT_DIR)",
 				);
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_OPTIMIZATION_LEVEL = s;
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				HEADER_SEARCH_PATHS = (
@@ -800,6 +805,7 @@
 					"../TuSDK/vendor/**",
 					"$(PROJECT_DIR)",
 				);
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_OPTIMIZATION_LEVEL = s;
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				HEADER_SEARCH_PATHS = (

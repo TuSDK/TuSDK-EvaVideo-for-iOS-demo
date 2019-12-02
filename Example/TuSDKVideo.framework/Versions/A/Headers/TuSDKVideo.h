@@ -108,7 +108,8 @@
 #import "TuSDKGPUVideoPixelBufferForTexture.h"
 #import "TuSDKAssetVideoTrackPixelBufferOutput.h"
 #import "TuSDKMediaAssetExtractor.h"
-
+#import "TuSDKFileWriter.h"
+#import "TuSDKAsyncEncodecBridge.h"
 
 /** Video版本号 */
 extern NSString * const lsqVideoVersion;

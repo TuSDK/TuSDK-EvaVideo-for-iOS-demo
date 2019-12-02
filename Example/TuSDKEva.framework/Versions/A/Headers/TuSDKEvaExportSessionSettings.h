@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "TuSDKEvaImport.h"
+#import "TuSDKEvaTemplate.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -20,7 +21,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) NSURL * _Nullable outputURL;
 
 /**
- 输出的视频size
+ 导出视频的分辨率等级, 建议使用这个API，如果设置了outputSize那么renderSizeLevel将无效
+ @since v1.2.1
+ */
+@property (nonatomic, assign) TuSDKEvaRenderSizeLevel renderSizeLevel;
+
+/**
+ 输出的视频size, 建议使用renderSizeLevel这个API，如果设置了outputSize那么renderSizeLevel将无效
  @since v1.0.0
  */
 @property (nonatomic) CGSize outputSize;

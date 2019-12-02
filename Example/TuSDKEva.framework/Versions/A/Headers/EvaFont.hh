@@ -31,7 +31,7 @@ namespace tutu
 		// 名称
 		std::string name;
 		// 样式
-		TypeStyle style{ NORMAL };
+		std::string style;
 		// 字体文件名称 例：方正行楷_GBK.ttf
 		std::string fileName;
 		// 字体文件 例：images/

@@ -55,9 +55,9 @@ TuSDKEvaPlayerDelegate, TuSDKEvaPlayerLoadDelegate, MultiPickerDelegate, UITextF
  */
 @property (nonatomic, strong) TuSDKEvaPlayer *evaPlayer;
 
-//@property (strong, nonatomic) NSMutableArray *originTexts;
-//@property (strong, nonatomic) NSMutableArray *originImages;
-//@property (strong, nonatomic) NSMutableArray *originMusics;
+/** 需要删除的资源：图片、视频 */
+@property (nonatomic, strong) NSMutableArray *needDeleteResources;
+
 
 /**
  slider Befor
@@ -75,6 +75,9 @@ TuSDKEvaPlayerDelegate, TuSDKEvaPlayerLoadDelegate, MultiPickerDelegate, UITextF
 
 /* 音乐选择器 */
 @property (nonatomic, strong) MusicView *musiView;
+
+/** 上次拖拽的进度 */
+@property (nonatomic, assign) CGFloat lastProgress;
 @end
 
 
@@ -140,7 +143,15 @@ TuSDKEvaPlayerDelegate, TuSDKEvaPlayerLoadDelegate, MultiPickerDelegate, UITextF
         [_session destory];
         _session = nil;
     }
-    NSLog(@"EditViewController ------ dealloc");
+    
+    if (_needDeleteResources && _needDeleteResources.count > 0) {
+        [_needDeleteResources enumerateObjectsUsingBlock:^(NSString *  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            [TuSDKTSFileManager deletePath:obj];
+        }];
+    }
+    // 希望可以及时回收FBO
+//    [[TuSDKEncodecFBOManager shader] destoryFBO];
+//    NSLog(@"EditViewController ------ dealloc");
 }
 
 - (void)commonInit {
@@ -383,6 +394,7 @@ TuSDKEvaPlayerDelegate, TuSDKEvaPlayerLoadDelegate, MultiPickerDelegate, UITextF
 //                NSLog(@"---------%f", CMTimeGetSeconds(edit.duration));
                 [edit setEditCompleted:^(NSURL * _Nonnull outputUrl) {
                     [weakSelf.navigationController popToViewController:weakSelf animated:YES];
+                    [weakSelf.needDeleteResources addObject:outputUrl.path];
                     weakAsset.assetURL = outputUrl;
                     [weakSelf.collectionView reloadData];
                     weakSelf.needSeekTime = weakAsset.startTime;
@@ -397,6 +409,7 @@ TuSDKEvaPlayerDelegate, TuSDKEvaPlayerLoadDelegate, MultiPickerDelegate, UITextF
                 edit.cutSize = weakAsset.size;
                 [edit setEditCompleted:^(NSURL * _Nonnull outputUrl) {
                     [weakSelf.navigationController popToViewController:weakSelf animated:YES];
+                    [weakSelf.needDeleteResources addObject:outputUrl.path];
                     weakAsset.assetURL = outputUrl;
                     [weakSelf.collectionView reloadData];
                     weakSelf.needSeekTime = weakAsset.startTime;
@@ -452,6 +465,12 @@ TuSDKEvaPlayerDelegate, TuSDKEvaPlayerLoadDelegate, MultiPickerDelegate, UITextF
         _isSeek = YES;
         _sliderBefore = self.evaPlayer.status == TuSDKMediaPlayerStatusPlaying;
     }
+    
+    // 将拖拽阈值放大
+    if (abs(sender.value - _lastProgress) < 0.03) {
+        return;
+    }
+    _lastProgress = sender.value;
     CMTime duration = self.evaPlayer.durationTime;
     CMTime seek = CMTimeMake(sender.value * duration.value, duration.timescale);
     [self.evaPlayer seekToTime:seek];
@@ -608,7 +627,13 @@ TuSDKEvaPlayerDelegate, TuSDKEvaPlayerLoadDelegate, MultiPickerDelegate, UITextF
 //    exportSettings.outputURL
     // 是否保存到相册 -- 默认YES
     exportSettings.saveToAlbum = YES;
+    
     // 导出视频的尺寸
+    // 建议使用新的API的尺寸分辨率设置
+    // 建议这里的level等级和前面预览时的设置保持一致，这样在导出的时候不会再从新加载一次模板，需要时间消耗
+    // 当然在前面预览时设置的比较高，那预览性能就会有所消耗，总之看自己选择，拿性能换时间还是时间换性能
+    exportSettings.renderSizeLevel = _evaTemplate.options.renderSizeLever;
+//    exportSettings.outputSize = _evaTemplate.videoSize;
 //    exportSettings.outputSize = CGSizeMake(720, 1280);
     
     // 导出视频的文件类型
@@ -682,7 +707,7 @@ TuSDKEvaPlayerDelegate, TuSDKEvaPlayerLoadDelegate, MultiPickerDelegate, UITextF
  @since      v1.0.0
  */
 - (void)mediaEvaExportSession:(TuSDKEvaExportSession *_Nonnull)exportSession progressChanged:(CGFloat)percent outputTime:(CMTime)outputTime;{
-    NSLog(@"---%f", percent);
+//    NSLog(@"---%f", percent);
     [TuSDKProgressHUD showProgress:percent status:[NSString stringWithFormat:@"正在导出 %.0f%%",percent*100]];
 }
 
@@ -816,6 +841,13 @@ TuSDKEvaPlayerDelegate, TuSDKEvaPlayerLoadDelegate, MultiPickerDelegate, UITextF
         [[UIApplication sharedApplication].keyWindow addSubview:_musiView];
     }
     return _musiView;
+}
+
+- (NSMutableArray *)needDeleteResources {
+    if (!_needDeleteResources) {
+        _needDeleteResources = [NSMutableArray array];
+    }
+    return _needDeleteResources;
 }
 
 @end

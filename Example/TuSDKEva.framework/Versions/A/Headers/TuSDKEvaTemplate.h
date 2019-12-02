@@ -15,6 +15,22 @@
 #define TuSDKEvaTemplateLoadResourceProgressNotification @"TuSDKEvaTemplateLoadResourceProgressNotification"
 #define kTuSDKEvaTemplateTimeBase 1000000000.f
 
+
+/**
+ AE 模板分辨率渲染等级
+ @since 1.2.1
+ */
+typedef NS_ENUM(NSUInteger, TuSDKEvaRenderSizeLevel) {
+    TuSDKEvaRenderSizeLevelNormal = 0,  // 默认等级大小, 原模板分辨率是多大渲染出就是多大
+    TuSDKEvaRenderSizeLevelLow,         // 最低等级大小, 对齐到540P，如果原视频分辨率低于它，不做处理
+    TuSDKEvaRenderSizeLevelMiddle,      // 中等等级大小, 对齐到720P，如果原视频分辨率低于它，不做处理
+    TuSDKEvaRenderSizeLevelHigh         // 原分辨率大小, 对齐到1080P，如果原视频分辨率低于它，不做处理
+};
+
+
+// 尺寸加载回调
+void eva_load_callback_size(int &width, int &height);
+
 @protocol TuSDKEvaTemplateDelegate;
 @class TuSDKEvaTemplateOptions;
 
@@ -33,6 +49,16 @@ NS_ASSUME_NONNULL_BEGIN
  @since v1.0.0
  */
 + (instancetype)initWithEvaBundlePath:(NSString *)evaBundlePath;
+
+
+/**
+ 根据 evaBundlePath 初始化
+ 
+ evaBundlePath  资源路径
+ options        配置选项，初始化的一些配置已经需要了
+ @since v1.2.1
+ */
++ (instancetype)initWithEvaBundlePath:(NSString *)evaBundlePath options:(nullable TuSDKEvaTemplateOptions*)options;
 
 
 /**
@@ -71,11 +97,18 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,copy,readonly) NSString *jsonString;
 
 /**
- 模板视频宽高
+ 模板视频宽高, 当前渲染的宽高，同步了options里面renderSizeLevel的配置
  
  @since v1.0.0
  */
-@property (nonatomic,readonly) CGSize videoSize;
+@property (nonatomic, assign, readonly) CGSize videoSize;
+
+/**
+ 原模板视频的宽高
+ 
+ @since v1.2.1
+ */
+@property (nonatomic, assign, readonly) CGSize originVideoSize;
 
 /**
  图片资源管理器
@@ -181,6 +214,12 @@ NS_ASSUME_NONNULL_BEGIN
  @since v1.0.0
  */
 @property (nonatomic, assign, readonly) BOOL isCanReplaceVideo;
+
+/**
+ 渲染分辨率缩放等级, 默认是Normal，不进行处理
+ @since v1.2.1
+ */
+@property (nonatomic, assign) TuSDKEvaRenderSizeLevel renderSizeLever;
 
 @end
 

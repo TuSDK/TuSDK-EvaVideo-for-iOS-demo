@@ -64,6 +64,9 @@
  */
 @property (nonatomic, assign) BOOL isSeek;
 
+/** 上次拖拽的进度 */
+@property (nonatomic, assign) CGFloat lastProgress;
+
 @end
 
 @implementation EVAPreviewViewController
@@ -189,7 +192,12 @@
     TuSDKEvaTemplateOptions *options = [[TuSDKEvaTemplateOptions alloc] init];
     options.replaceMaxVideoCount = [UIDevice lsqDevicePlatform] <= TuSDKDevicePlatform_iPhone6p ? 5 : 9;
     options.scale = [UIDevice lsqDevicePlatform] <= TuSDKDevicePlatform_iPhone6p ? 0.3 : 1.0;
-    TuSDKEvaTemplate *evaTemplate = [TuSDKEvaTemplate initWithEvaBundlePath:_evaPath];
+    
+    // 7P及以下的机型保持最高分辨率是中等，即720p，其它的保证原分辨率
+    options.renderSizeLever = [UIDevice lsqDevicePlatform] <= TuSDKDevicePlatform_iPhone7p ? ( [UIDevice lsqDevicePlatform] < TuSDKDevicePlatform_iPhone6s ? TuSDKEvaRenderSizeLevelLow : TuSDKEvaRenderSizeLevelMiddle) : TuSDKEvaRenderSizeLevelNormal;
+//    options.renderSizeLever = TuSDKEvaRenderSizeLevelMiddle;
+    // 画布分辨率设置，需要再初始化的时候传递进去
+    TuSDKEvaTemplate *evaTemplate = [TuSDKEvaTemplate initWithEvaBundlePath:_evaPath options:options];
     if (evaTemplate == nil) {
         [[TuSDK shared].messageHub showError:@"  模板有误   "];
         if (self.loadTempleError) {
@@ -197,7 +205,7 @@
         }
         return;
     }
-    evaTemplate.options = options;
+    
     _texts = [NSMutableArray arrayWithArray:evaTemplate.textAssetManager.placeholderAssets];
     _medias = [NSMutableArray arrayWithArray:evaTemplate.imageAssetManager.placeholderAssets];
     _audios = [NSMutableArray arrayWithArray:evaTemplate.audioAssetManager.placeholderAssets];
@@ -312,11 +320,20 @@
     if (!_isSeek) {
         _isSeek = YES;
         _sliderBefore = self.evaPlayer.status == TuSDKMediaPlayerStatusPlaying;
+        _lastProgress = 0;
     }
     // seek
     CMTime duration = self.evaPlayer.durationTime;
     CMTime seek = CMTimeMake(sender.value * duration.value, duration.timescale);
-    [self.evaPlayer seekToTime:seek];
+    
+    if (abs(sender.value - _lastProgress) > 0.03) {
+        // 拖拽了百分之一才开始seek
+        [self.evaPlayer seekToTime:seek];
+        _lastProgress = sender.value;
+    } else {
+        // 拖拽变化值太低
+//        NSLog(@"拖拽变化值太低");
+    }
     
     // time
     int total = CMTimeGetSeconds(duration);
