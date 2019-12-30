@@ -43,6 +43,9 @@ typedef NS_ENUM(NSInteger, DownloadState) {
 /** 代理 */
 @property (nonatomic, weak) id<DownLoadFileModelDelegate> delegate;
 
+/** 模版是否更新*/
+@property (nonatomic, assign, readonly) BOOL isChange;
+
 /** 图片地址 */
 @property (nonatomic, strong, readonly) NSString *image;
 

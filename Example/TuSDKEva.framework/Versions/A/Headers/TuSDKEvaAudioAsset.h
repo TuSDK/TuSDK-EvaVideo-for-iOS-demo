@@ -61,6 +61,36 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) TuSDKEvaAudioAssetURL assetURL;
 
 /**
+ 播放时长
+ @since v1.2.2
+ */
+@property (nonatomic, assign, readonly) CMTime duration;
+
+/**
+ 播放开始的时间
+ @since v1.2.2
+ */
+@property (nonatomic, assign, readonly) CMTime startTime;
+
+/**
+ 播放介绍的时间
+ @since v1.2.2
+ */
+@property (nonatomic, assign, readonly) CMTime endTime;
+
+/**
+ 开始帧位置
+ @since v1.2.2
+ */
+@property (nonatomic, assign, readonly) int startFrame;
+
+/**
+ 结束帧位置
+ @since v1.2.2
+*/
+@property (nonatomic, assign, readonly) int endFrame;
+
+/**
  默认资源完整路径
  @since v1.0.0 ([NSURL fileURLWithPath])
  */

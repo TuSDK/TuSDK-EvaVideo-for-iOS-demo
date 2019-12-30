@@ -57,6 +57,25 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) CGRect outputRegion;
 
 /**
+ 输出时间范围，默认全部输出
+ 注意：输出时间范围要以原视频时长为准
+ @since v1.2.2
+ */
+@property (nonatomic, assign) CMTimeRange outputTimeRange;
+
+/**
+ 输出时间的开始点，默认是CMTimeZero
+ @since v1.2.2
+ */
+@property (nonatomic, assign, readonly) CMTime outputTimeStart;
+
+/**
+ 输出时间的结束点，默认是CMTimeZero，表示全部输出
+ @since v1.2.2
+ */
+@property (nonatomic, assign, readonly) CMTime outputTimeEnd;
+
+/**
  视频输出方向
  @since v1.0.0
  */

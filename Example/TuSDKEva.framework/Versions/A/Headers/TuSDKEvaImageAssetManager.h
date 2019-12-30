@@ -12,6 +12,7 @@
 #include "EvaAsset.hh"
 #include <map>
 #include <string>
+#import "TuSDKEvaMediaAsset.h"
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -31,7 +32,15 @@ NS_ASSUME_NONNULL_BEGIN
  @return eva 图片集合
  @since v1.0.0
  */
-- (instancetype)initWithEvaTemplate:(TuSDKEvaTemplate *)evaTemplate evaImages:(std::map<std::string, std::shared_ptr<tutu::EvaImageAsset>>)images;
+- (instancetype)initWithEvaTemplate:(TuSDKEvaTemplate *)evaTemplate evaMedias:(NSArray<TuSDKEvaMediaAsset *> *)medias;
+
+///**
+// 初始化 TuSDKImageAssetManager 可配置参数
+// 
+// @return eva 图片集合
+// @since v1.0.0
+// */
+//- (instancetype)initWithEvaTemplate:(TuSDKEvaTemplate *)evaTemplate evaImages:(std::map<std::string, std::shared_ptr<tutu::EvaImageAsset>>)images;
 
 /**
  资源模板
@@ -70,10 +79,19 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  返回供 EVA 使用的 EvaImagePtr
  
- @return EvaImagePtr
- @since v1.0.0
+ @return evaMediaAsset
+ @since v1.2.2
  */
-- (tutu::EvaImageImplPtr)loadEvaAssetImage:(tutu::EvaImageAssetPtr)evaImageAsset;
+- (tutu::EvaImageImplPtr)loadEvaMediaAssetImage:(TuSDKEvaMediaAsset *)evaMediaAsset;
+
+
+/**
+通过fid查找mediaAsset
+@param fid 唯一标识
+@return evaMediaAsset
+@since v1.2.2
+*/
+- (TuSDKEvaMediaAsset *)evaMediaAssetWidthFid:(NSString *)fid;
 
 /**
  还原占位资源，放弃修改项

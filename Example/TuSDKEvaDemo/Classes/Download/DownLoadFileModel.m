@@ -22,12 +22,13 @@
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary {
     if (self = [super init]) {
         if (dictionary) {
+            _isChange = [[dictionary valueForKey:@"isChange"] boolValue];
             _width = [[dictionary valueForKey:@"width"] integerValue];
             _height = [[dictionary valueForKey:@"height"] integerValue];
             _fileName = [dictionary valueForKey:@"path"];
             _image = [dictionary valueForKey:@"image"];
             _name = [dictionary valueForKey:@"name"];
-            _filePath = [DownLoadFileModel checkDownLoadWithFile:_fileName];
+            _filePath = [self checkDownLoadWithFile:_fileName];
             _status = _filePath != nil ? DownloadStateCompleted : DownloadStateNone;
         }
     }
@@ -46,7 +47,7 @@
         _temFilePath = nil;
     }
     // 标记也清除掉
-    [DownLoadFileModel checkDownLoadWithFile:_fileName];
+    [self checkDownLoadWithFile:_fileName];
     _fileLength = 0;
     _cacheLength = 0;
 }
@@ -61,7 +62,7 @@
     // 下载完成，赋值完整文件路径
     if (_status == DownloadStateCompleted) {
         _filePath = _temFilePath;
-        [DownLoadFileModel saveDownloadFilePath:self];
+        [self saveDownloadFilePath:self];
     }
     
     if (self.delegate && [self.delegate respondsToSelector:@selector(downloadFileModel:statusChanged:)]) {
@@ -114,7 +115,7 @@
 
 #pragma mark - file本地保存与获取
 // 查看模板文件
-+ (NSString *)checkDownLoadWithFile:(NSString *)fileName {
+- (NSString *)checkDownLoadWithFile:(NSString *)fileName {
     
     // 查看项目中是否有, 如果有，直接返回
     NSString *bundleString = [[NSBundle mainBundle] pathForResource:@"TuSDK" ofType:@"bundle"];
@@ -131,24 +132,33 @@
     if (file == nil) {
         return nil;
     }
-    
+    // NSUserDefaultsfile 保存的文件路径，是固定的
     // 本地缓存了链接，但实际文件不一定有，需要查看下
     NSFileManager *fileManager = [[NSFileManager alloc] init]; // default is not thread safe
-    BOOL isFile = [fileManager fileExistsAtPath:file];
+    // 实时读取到该目录的下文件路径，该路径是实时更新的
+    NSString *filePath = [NSString stringWithFormat:@"%@/%@", kCacheDirectory, fileName];
+    BOOL isFile = [fileManager fileExistsAtPath:filePath] ;
+    //NSLog(@"isflie--%d",isFile);
     if (!isFile) {
         [[NSUserDefaults standardUserDefaults] setValue:nil forKey:key];
         return nil;
+    }else if (isFile && self.isChange){//文件存在并且模版被更新过的，需要把本地下载好的移除，方便重新下载
+        [fileManager removeItemAtPath:filePath error:nil];
+        [[NSUserDefaults standardUserDefaults] setValue:nil forKey:key];
+        self.status = DownloadStateNone;
+        return nil;
     }
-    return file;
+    return filePath;
 }
 
 
 /// 将下载好的文件路径保存到本地
 /// @param fileModel 模板数据
 
-+ (void)saveDownloadFilePath:(DownLoadFileModel *)fileModel {
+- (void)saveDownloadFilePath:(DownLoadFileModel *)fileModel {
     // 加密的key
     NSString *key = [self encryptFileNameWithMD5:fileModel.fileName];
+
     if (fileModel.filePath == nil) {
         return;
     }
@@ -159,7 +169,7 @@
 /**
  将文件名md5加密
  */
-+ (NSString *)encryptFileNameWithMD5:(NSString *)str
+- (NSString *)encryptFileNameWithMD5:(NSString *)str
 {
     //要进行UTF8的转码
     const char* input = [str UTF8String];

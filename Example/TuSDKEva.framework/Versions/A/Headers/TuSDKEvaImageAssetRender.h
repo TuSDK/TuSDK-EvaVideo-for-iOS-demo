@@ -10,6 +10,7 @@
 #import "TuSDKEvaImageAsset.h"
 #include "EvaImageImpl.hh"
 #include "EvaAsset.hh"
+#import "TuSDKEvaMediaAsset.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -38,7 +39,13 @@ NS_ASSUME_NONNULL_BEGIN
  imageAsset 图片资产图片指针
  @since v1.0.0
  */
-@property (nonatomic,readonly) tutu::EvaImageImplPtr evaImagePtr;
+@property (nonatomic, readonly) tutu::EvaImageImplPtr evaImagePtr;
+
+/**
+ imageAsset 资产图片
+ @since v1.0.0
+ */
+@property (nonatomic, strong, readonly) TuSDKEvaMediaAsset *evaMediaAsset;
 
 @end
 

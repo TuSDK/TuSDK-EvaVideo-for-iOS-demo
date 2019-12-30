@@ -132,6 +132,7 @@ AE 模板 选项
 */
 @property (nonatomic, assign) NSInteger replaceMaxVideoCount;
 
+// 注意，这个API已经剔除了，不再使用
 /**
 图片渲染时图片的压缩比，用于适配低配置的手机尤其是6p及以下，默认是1.0
 
@@ -526,6 +527,7 @@ if (_evaPlayer) {
 }
 ```
 
+
 ### 其他
 
 - 使用前需要先获取权限，拿到与bundle ID 一致的授权Key和TuSDK.bundle资源
@@ -533,4 +535,5 @@ if (_evaPlayer) {
 - zip资源包的生成请看对应的文档
 - 其他更详细的API请看SDK中头文件中的API
 - 如果报`memory not found`，将引入`TuSDKFramework.h`或直接引入了`#import <TuSDKEva/TuSDKEva.h>`的文件后缀改成`.mm`即可
+
 

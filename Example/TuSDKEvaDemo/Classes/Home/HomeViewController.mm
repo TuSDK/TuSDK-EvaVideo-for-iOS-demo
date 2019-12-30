@@ -13,6 +13,7 @@
 #import "DownLoadManager.h"
 #import "DownLoadFileModel.h"
 #import "TuSDKFramework.h"
+#import "DownLoadListManager.h"
 
 
 #define kColumMargin 12.0
@@ -34,6 +35,18 @@
 
 @implementation HomeViewController
 
+- (void)updateUI;
+{
+    if (self.models.count == 0) {
+
+        // 下载中或者等待下载
+        [[TuSDK shared].messageHub showError:@"网络异常，请检查网络并重试！"];
+    }else{
+        [[TuSDK shared].messageHub dismiss];
+        [self.collectionView reloadData];
+    }
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -43,32 +56,51 @@
     self.collectionViewLayout.delegate = self;
     self.collectionView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
     
-    NSArray *models =  @[
+    [[TuSDK shared].messageHub setStatus:@"正在加载"];
+    [[DownLoadListManager manager] downLoadFileCompletionHandler:^(NSMutableArray * modelArr) {
 
-        @{@"name":@"说爱你",@"path":@"lsq_eva_42.eva", @"width": @(450), @"height": @(800), @"image":@"42-cover"},
-        @{@"name":@"字幕快闪",@"path":@"lsq_eva_43.eva", @"width": @(800), @"height": @(450), @"image":@"43-cover"},
-        @{@"name":@"产品推广护肤品",@"path":@"lsq_eva_44.eva", @"width": @(450), @"height": @(800), @"image":@"44-cover"},
-        @{@"name":@"视频MV",@"path":@"lsq_eva_45.eva", @"width": @(450), @"height": @(800), @"image":@"45-cover"},
-        @{@"name":@"照片展示",@"path":@"lsq_eva_46.eva", @"width": @(450), @"height": @(800), @"image":@"46-cover"},
-        @{@"name":@"童趣",@"path":@"lsq_eva_47.eva", @"width": @(800), @"height": @(450), @"image":@"47-cover"},
-        @{@"name":@"简单视频展示",@"path":@"lsq_eva_48.eva", @"width": @(400), @"height": @(300), @"image":@"48-cover"},
-        @{@"name":@"人员介绍",@"path":@"lsq_eva_49.eva", @"width": @(400), @"height": @(600), @"image":@"49-cover"},
-        @{@"name":@"汽车介绍",@"path":@"lsq_eva_50.eva", @"width": @(800), @"height": @(450), @"image":@"50-cover"},
-        @{@"name":@"夏日风情",@"path":@"lsq_eva_51.eva", @"width": @(400), @"height": @(600), @"image":@"51-cover"},
-        @{@"name":@"九宫格",@"path":@"lsq_eva_24.eva", @"width": @(800), @"height": @(450), @"image":@"01-cover"},
-        @{@"name":@"趣味夏天旅行",@"path":@"lsq_eva_26.eva", @"width": @(800), @"height": @(1422), @"image":@"03-cover"},
-        @{@"name":@"十里桃花",@"path":@"lsq_eva_25.eva", @"width": @(800), @"height": @(450), @"image":@"02-cover"},
-        @{@"name":@"新婚快乐-蓝",@"path":@"lsq_eva_27.eva", @"width": @(800), @"height": @(1422), @"image":@"04-cover"},
-        @{@"name":@"新婚快乐-粉",@"path":@"lsq_eva_28.eva", @"width": @(800), @"height": @(1422), @"image":@"05-cover"},
-        @{@"name":@"婚礼纪念日",@"path":@"lsq_eva_29.eva", @"width": @(800), @"height": @(1422), @"image":@"06-cover"},
-        @{@"name":@"时尚潮流",@"path":@"lsq_eva_30.eva", @"width": @(800), @"height": @(450), @"image":@"09-cover"},
-        @{@"name":@"电影胶片",@"path":@"lsq_eva_31.eva", @"width": @(800), @"height": @(1422), @"image":@"10-cover"},
-        @{@"name":@"涂图视频融合介绍",@"path":@"lsq_eva_23.eva", @"width": @(800), @"height": @(600), @"image":@"08-cover"},
-    ];
-    _models = [NSMutableArray arrayWithCapacity:models.count];
-    for (NSDictionary *dict in models) {
-        [_models addObject:[[DownLoadFileModel alloc] initWithDictionary:dict]];
-    }
+        // 将 modelArr 转成 DownLoadFileModel 数组
+        self.models = [NSMutableArray arrayWithCapacity:modelArr.count];
+        for (NSDictionary *dict in modelArr) {
+            [self.models addObject:[[DownLoadFileModel alloc] initWithDictionary:dict]];
+        }
+       [self performSelectorOnMainThread:@selector(updateUI) withObject:nil waitUntilDone:NO];
+    }];
+
+//    NSArray *models =  @[
+////    @{@"name":@"夏日风情",@"path":@"15s.eva", @"width": @(400), @"height": @(600), @"image":@"51-cover"},
+////    @{@"name":@"夏日风情",@"path":@"15snull.eva", @"width": @(400), @"height": @(600), @"image":@"51-cover"},
+////    @{@"name":@"夏日风情",@"path":@"60s.eva", @"width": @(400), @"height": @(600), @"image":@"51-cover"},
+////    @{@"name":@"夏日风情",@"path":@"60snull.eva", @"width": @(400), @"height": @(600), @"image":@"51-cover"},
+////    @{@"name":@"夏日风情",@"path":@"new.eva", @"width": @(400), @"height": @(600), @"image":@"51-cover"},
+////    @{@"name":@"夏日风情",@"path":@"old.eva", @"width": @(400), @"height": @(600), @"image":@"51-cover"},
+//
+//    @{@"name":@"夏日风情",@"path":@"lsq_eva_134.eva", @"width": @(450), @"height": @(800), @"image":@"143-cover"},
+//
+//        @{@"name":@"说爱你",@"path":@"lsq_eva_42.eva", @"width": @(450), @"height": @(800), @"image":@"42-cover"},
+//        @{@"name":@"字幕快闪",@"path":@"lsq_eva_43.eva", @"width": @(800), @"height": @(450), @"image":@"43-cover"},
+//        @{@"name":@"产品推广护肤品",@"path":@"lsq_eva_44.eva", @"width": @(450), @"height": @(800), @"image":@"44-cover"},
+//        @{@"name":@"视频MV",@"path":@"lsq_eva_45.eva", @"width": @(450), @"height": @(800), @"image":@"45-cover"},
+//        @{@"name":@"照片展示",@"path":@"lsq_eva_46.eva", @"width": @(450), @"height": @(800), @"image":@"46-cover"},
+//        @{@"name":@"童趣",@"path":@"lsq_eva_47.eva", @"width": @(800), @"height": @(450), @"image":@"47-cover"},
+//        @{@"name":@"简单视频展示",@"path":@"lsq_eva_48.eva", @"width": @(400), @"height": @(300), @"image":@"48-cover"},
+//        @{@"name":@"人员介绍",@"path":@"lsq_eva_49.eva", @"width": @(400), @"height": @(600), @"image":@"49-cover"},
+//        @{@"name":@"汽车介绍",@"path":@"lsq_eva_50.eva", @"width": @(800), @"height": @(450), @"image":@"50-cover"},
+//        @{@"name":@"夏日风情",@"path":@"lsq_eva_51.eva", @"width": @(400), @"height": @(600), @"image":@"51-cover"},
+//        @{@"name":@"九宫格",@"path":@"lsq_eva_24.eva", @"width": @(800), @"height": @(450), @"image":@"01-cover"},
+//        @{@"name":@"趣味夏天旅行",@"path":@"lsq_eva_26.eva", @"width": @(800), @"height": @(1422), @"image":@"03-cover"},
+//        @{@"name":@"十里桃花",@"path":@"lsq_eva_25.eva", @"width": @(800), @"height": @(450), @"image":@"02-cover"},
+//        @{@"name":@"新婚快乐-蓝",@"path":@"lsq_eva_27.eva", @"width": @(800), @"height": @(1422), @"image":@"04-cover"},
+//        @{@"name":@"新婚快乐-粉",@"path":@"lsq_eva_28.eva", @"width": @(800), @"height": @(1422), @"image":@"05-cover"},
+//        @{@"name":@"婚礼纪念日",@"path":@"lsq_eva_29.eva", @"width": @(800), @"height": @(1422), @"image":@"06-cover"},
+//        @{@"name":@"时尚潮流",@"path":@"lsq_eva_30.eva", @"width": @(800), @"height": @(450), @"image":@"09-cover"},
+//        @{@"name":@"电影胶片",@"path":@"lsq_eva_31.eva", @"width": @(800), @"height": @(1422), @"image":@"10-cover"},
+//        @{@"name":@"涂图视频融合介绍",@"path":@"lsq_eva_23.eva", @"width": @(800), @"height": @(600), @"image":@"08-cover"},
+//    ];
+//    _models = [NSMutableArray arrayWithCapacity:models.count];
+//    for (NSDictionary *dict in models) {
+//        [_models addObject:[[DownLoadFileModel alloc] initWithDictionary:dict]];
+//    }
 }
 
 
@@ -132,6 +164,7 @@
     DownLoadFileModel *model = _models[indexPath];
     CGFloat width = model.width;
     CGFloat height = model.height;
+    NSLog(@"width,height--%f,%f",width,height);
     return kItemWidth * (height/width) + 0.0; // 0.0 是文字高度 暂时隐藏
 }
 

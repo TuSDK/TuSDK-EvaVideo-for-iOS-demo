@@ -191,10 +191,14 @@
     
     TuSDKEvaTemplateOptions *options = [[TuSDKEvaTemplateOptions alloc] init];
     options.replaceMaxVideoCount = [UIDevice lsqDevicePlatform] <= TuSDKDevicePlatform_iPhone6p ? 5 : 9;
-    options.scale = [UIDevice lsqDevicePlatform] <= TuSDKDevicePlatform_iPhone6p ? 0.3 : 1.0;
+    // 此API已经无效，已经对内部内存进行了优化，不需要再设置，以导致分辨率太低
+//    options.scale = [UIDevice lsqDevicePlatform] <= TuSDKDevicePlatform_iPhone6p ? 0.3 : 1.0;
     
-    // 7P及以下的机型保持最高分辨率是中等，即720p，其它的保证原分辨率
-    options.renderSizeLever = [UIDevice lsqDevicePlatform] <= TuSDKDevicePlatform_iPhone7p ? ( [UIDevice lsqDevicePlatform] < TuSDKDevicePlatform_iPhone6s ? TuSDKEvaRenderSizeLevelLow : TuSDKEvaRenderSizeLevelMiddle) : TuSDKEvaRenderSizeLevelNormal;
+    // 6S以下540P, 7P及以下的机型保持最高分辨率是中等，即720p，其它的保证原分辨率
+    options.renderSizeLever = [UIDevice lsqDevicePlatform] <= TuSDKDevicePlatform_iPhone7p ? ( [UIDevice lsqDevicePlatform] < TuSDKDevicePlatform_iPhone6s ? TuSDKEvaRenderSizeLevelLow : TuSDKEvaRenderSizeLevelMiddle) : TuSDKEvaRenderSizeLevelHigh;
+    // 预览设置时间范围，默认为kCMTimeRangeZero，原视频的时间范围
+//    options.previewTimeRange = CMTimeRangeMake(CMTimeMakeWithSeconds(2, USEC_PER_SEC), CMTimeMakeWithSeconds(7, USEC_PER_SEC));
+
 //    options.renderSizeLever = TuSDKEvaRenderSizeLevelMiddle;
     // 画布分辨率设置，需要再初始化的时候传递进去
     TuSDKEvaTemplate *evaTemplate = [TuSDKEvaTemplate initWithEvaBundlePath:_evaPath options:options];
@@ -298,7 +302,7 @@
 - (void)refreshCurrentTime:(CMTime)currentTime {
     CMTime dur = self.evaPlayer.durationTime;
     int duration = round(CMTimeGetSeconds(dur));
-    int current = MIN(round(CMTimeGetSeconds(currentTime)), duration);
+    int current = MIN(round(CMTimeGetSeconds(CMTimeSubtract(currentTime, _evaTemplate.options.previewTimeStart))), duration);
     self.duration.text = [NSString stringWithFormat:@"%02d:%02d/%02d:%02d",(current/60),(current%60),(duration/60),(duration%60)];
 }
 
@@ -361,9 +365,9 @@
 - (IBAction)firstFrame:(UIButton *)sender {
     if (self.evaPlayer == nil ) return;
     [self.evaPlayer pause];
-    [self.evaPlayer seekToTime:kCMTimeZero];
+    [self.evaPlayer seekToTime:self.evaPlayer.firstFrameStartTime];
     self.slider.value = 0.0;
-    [self refreshCurrentTime:kCMTimeZero];
+    [self refreshCurrentTime:self.evaPlayer.firstFrameStartTime];
 }
 
 
@@ -376,7 +380,7 @@
         [self.evaPlayer pause];
     } else {
         if (CMTimeCompare(self.evaPlayer.currentTime, self.evaPlayer.durationTime) >= 0) {
-            [self.evaPlayer seekToTime:kCMTimeZero];
+            [self.evaPlayer seekToTime:self.evaPlayer.firstFrameStartTime];
         }
         [self.evaPlayer play];
     }

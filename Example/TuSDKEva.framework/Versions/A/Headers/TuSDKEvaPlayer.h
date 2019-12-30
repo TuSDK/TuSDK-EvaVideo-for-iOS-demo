@@ -36,6 +36,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,readonly) CMTime durationTime;
 
 /**
+ 播放第一帧的开始时间,如果设置了预览时间范围的开始时间大于0，则需要传人该值，该值为预览的开始时间
+ @since v1.2.2
+ */
+@property (nonatomic,readonly) CMTime firstFrameStartTime;
+
+
+/**
  EvaPlayer 事件委托
  @since     v1.0.0
  */
@@ -73,6 +80,12 @@ NS_ASSUME_NONNULL_BEGIN
  @since  v1.0.0
  */
 - (void)reloadTemplate;
+
+/**
+ 重置预览时间范围
+ @since v1.2.2
+ */
+- (void)resetPreviewTimeRange;
 
 @end
 

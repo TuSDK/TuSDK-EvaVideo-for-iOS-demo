@@ -68,7 +68,7 @@ NS_ASSUME_NONNULL_BEGIN
  @return 新的文本内容
  @since v1.0.0
  */
-- (std::wstring)loadText:(std::wstring)assetId;
+- (std::wstring)loadText:(std::string)assetId;
 
 
 @end

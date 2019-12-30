@@ -17,20 +17,44 @@
 #include <stdint.h>
 #include <string>
 #include <vector>
+#include <limits.h>
 
 struct SkRect;
 
 namespace tutu
 {
+	struct AssetIOFrame
+	{
+	public:
+		AssetIOFrame(float start, float end) :startFrame(start), endFrame(end) {};
+		// 渲染开始帧
+		float startFrame{ -1.0f };
+		// 渲染结束帧
+		float endFrame{ -1.0f };
+
+	};
+
+	struct MediaIOPoint
+	{
+	public:
+		//解码起始帧
+		float inPoint{ -1.0f };
+		//解码结束帧
+		float outPoint{ -1.0f };
+
+	};
+
 	class EvaAsset
 	{
 	public:
 		// 所属层名称
 		std::string name;
-		// 开始帧
-		float startFrame{ -1.0f };
-		// 结束关键帧
-		float endFrame{ -1.0f };
+		// 渲染开始帧 旧接口
+		float startFrame{ 99999.0f };
+		// 渲染结束帧 旧接口
+		float endFrame{ -99999.0f };
+		// 渲染开始/结束帧
+		std::vector<AssetIOFrame> ioFrame;
 	};
 
 	typedef std::shared_ptr<EvaAsset> EvaAssetPtr;
@@ -72,6 +96,10 @@ namespace tutu
 		std::string dirName;
 		// 播放时长 秒
 		double duration{ 0.0f };
+		// 音频起始时间（视频所在图层） 秒
+		float audioStart{ 0 };
+		// 解码开始/结束帧数组
+		std::vector<MediaIOPoint> ioPoints;
 	public:
 		std::string toString();
 
@@ -79,6 +107,42 @@ namespace tutu
 
 	// 音频资源
 	typedef std::shared_ptr<EvaAudioAsset> EvaAudioAssetPtr;
+
+	//////////////////////////////////////////////////////////////////////////
+
+	// 视频资源
+	class EvaVideoAsset : public EvaAsset
+	{
+	public:
+		// 视频的宽度
+		uint32_t width{ 0 };
+		// 视频的高度
+		uint32_t height{ 0 };
+		// 视频唯一识别的id，图层获取音频的标识
+		std::string fid;
+		// 视频的名称 例：video_0.mp4
+		std::string fileName;
+		// 视频的路径，实际并未使用 例：videos/
+		std::string dirName;
+		// 播放时长 秒
+		double duration{ 0.0f };
+		// 视频帧率
+		float framerate{ 0.0f };
+		// 视频帧间隔
+		float frameDuration{ 0.0f };
+		// 视频起始时间（视频所在图层） 秒
+		float videoStart{ 0 };
+		// 解码开始/结束帧数组
+		std::vector<MediaIOPoint> ioPoints;
+
+
+	public:
+		std::string toString();
+
+	};
+
+	// 音频资源
+	typedef std::shared_ptr<EvaVideoAsset> EvaVideoAssetPtr;
 
 	//////////////////////////////////////////////////////////////////////////
 

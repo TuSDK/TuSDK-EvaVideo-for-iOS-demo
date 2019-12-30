@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  fbos
- @since v1.3.0
+ @since v3.5.0
  */
 @property (nonatomic, strong) NSMutableArray *cacheFBOs;
 
@@ -38,8 +38,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) TuSDKAsyncShader *renderShader;
 
 /**
- 清空FBO
- @since v1.3.0
+ 清空FBO, 切记，不能在渲染或者导出的过程中调用它，调用它后不能立马进行导出等操作，需要1-2s的缓冲不然会有首帧黑帧的出现
+ @since v3.5.0
  */
 - (void)destoryFBO;
 
@@ -116,7 +116,9 @@ NS_ASSUME_NONNULL_BEGIN
 /** 是否是裁剪视频 */
 @property (nonatomic, assign) BOOL isCutVideo;
 
-- (void)destoryFBO;
+
+/// 查看下FBO的缓存情况，是否需要及时清理
+- (void)checkCacheFBO;
 
 @end
 

@@ -8,6 +8,16 @@
 
 #import <AVFoundation/AVFoundation.h>
 #include "EvaAsset.hh"
+#import "TuSDKEvaMediaAsset.h"
+
+FOUNDATION_EXPORT NSString * const KTuSDKPlaceholderImagePrefixKey;
+FOUNDATION_EXPORT NSString * const KTuSDKPlaceholderVideoPrefixKey;
+
+FOUNDATION_EXPORT NSString * const KTuSDKPlaceholderMediaPrefixKey;
+FOUNDATION_EXPORT NSString * const KTuSDKPlaceholderMaskVVideoPrefixKey;
+
+FOUNDATION_EXPORT NSString * const KTuSDKPlaceholderMaskHVideoPrefixKey;
+
 
 /** 图片资源key @since v1.0.0 */
 typedef NSString* TuSDKEvaImageAssetID;
@@ -35,16 +45,17 @@ NS_ASSUME_NONNULL_BEGIN
  初始化 TuSDKEvaImageAsset
 
  @param evaTemplate eva模板
+ @param evaMediaAsset eva资源
  @return TuSDKEvaImageAsset
- @since v1.0.0
+ @since v1.2.2
  */
-- (instancetype)initWithEvaTemplate:(TuSDKEvaTemplate*)evaTemplate evaImageAsset:(tutu::EvaImageAssetPtr)evaImageAsset;
+- (instancetype)initWithEvaTemplate:(TuSDKEvaTemplate*)evaTemplate evaMediaAsset:(TuSDKEvaMediaAsset *)evaMediaAsset;
 
 /**
- 输入的 Eva 图片
- @since v1.0.0
+ mediaAsset
+ @since v1.2.2
  */
-@property (nonatomic,readonly) tutu::EvaImageAssetPtr inputEvaImageAssetPtr;
+@property (nonatomic, strong, readonly) TuSDKEvaMediaAsset *evaMediaAsset;
 
 /**
  播放时长
@@ -64,6 +75,17 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, assign, readonly) CMTime endTime;
 
+/**
+ 开始帧位置
+ @since v1.2.2
+ */
+@property (nonatomic, assign, readonly) int startFrame;
+
+/**
+ 结束帧位置
+ @since v1.2.2
+*/
+@property (nonatomic, assign, readonly) int endFrame;
 
 /**
  资产id

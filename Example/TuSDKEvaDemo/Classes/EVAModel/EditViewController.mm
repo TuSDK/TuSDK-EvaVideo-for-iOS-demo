@@ -150,8 +150,8 @@ TuSDKEvaPlayerDelegate, TuSDKEvaPlayerLoadDelegate, MultiPickerDelegate, UITextF
         }];
     }
     // 希望可以及时回收FBO
-//    [[TuSDKEncodecFBOManager shader] destoryFBO];
-//    NSLog(@"EditViewController ------ dealloc");
+    [[TuSDKEncodecFBOManager shader] destoryFBO];
+    NSLog(@"EditViewController ------ dealloc");
 }
 
 - (void)commonInit {
@@ -242,6 +242,8 @@ TuSDKEvaPlayerDelegate, TuSDKEvaPlayerLoadDelegate, MultiPickerDelegate, UITextF
     if (_session && _session.status == TuSDKMediaExportSessionStatusExporting) {
         [_session cancelExport];
     }
+    
+    _saving = NO;
 }
 
 
@@ -530,6 +532,7 @@ TuSDKEvaPlayerDelegate, TuSDKEvaPlayerLoadDelegate, MultiPickerDelegate, UITextF
     [self.collectionView reloadData];
     
     [_evaPlayer reloadTemplate];
+    [_evaPlayer resetPreviewTimeRange];
 }
 
 
@@ -549,6 +552,7 @@ TuSDKEvaPlayerDelegate, TuSDKEvaPlayerLoadDelegate, MultiPickerDelegate, UITextF
     }
     dispatch_async(dispatch_get_global_queue(DISPATCH_TARGET_QUEUE_DEFAULT, 0), ^{
         [self.evaPlayer reloadTemplate];
+        [self.evaPlayer resetPreviewTimeRange];
         // NSLog(@"seek time:%f", CMTimeGetSeconds(self.needSeekTime));
         [self.evaPlayer seekToTime:self.needSeekTime];
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -570,14 +574,14 @@ TuSDKEvaPlayerDelegate, TuSDKEvaPlayerLoadDelegate, MultiPickerDelegate, UITextF
         NSInteger start1 = 0.0, start2 = 0.0;
         if ([obj1 isKindOfClass:[TuSDKEvaImageAsset class]]) {
             TuSDKEvaImageAsset *image = (TuSDKEvaImageAsset *)obj1;
-            start1 = image.inputEvaImageAssetPtr->startFrame;
+            start1 = image.evaMediaAsset.startFrame;
         } else if ([obj1 isKindOfClass:[TuSDKEvaTextAsset class]]) {
             TuSDKEvaTextAsset *text = (TuSDKEvaTextAsset *)obj1;
             start1 = text.document.startFrame;
         }
         if ([obj2 isKindOfClass:[TuSDKEvaImageAsset class]]) {
             TuSDKEvaImageAsset *image = (TuSDKEvaImageAsset *)obj2;
-            start2 = image.inputEvaImageAssetPtr->startFrame;
+            start2 = image.evaMediaAsset.startFrame;
         } else if ([obj2 isKindOfClass:[TuSDKEvaTextAsset class]]) {
             TuSDKEvaTextAsset *text = (TuSDKEvaTextAsset *)obj2;
             start2 = text.document.startFrame;
@@ -603,7 +607,7 @@ TuSDKEvaPlayerDelegate, TuSDKEvaPlayerLoadDelegate, MultiPickerDelegate, UITextF
         [self.evaPlayer pause];
     } else {
         if (CMTimeCompare(self.evaPlayer.currentTime, self.evaPlayer.durationTime) >= 0) {
-            [self.evaPlayer seekToTime:kCMTimeZero];
+            [self.evaPlayer seekToTime:self.evaPlayer.firstFrameStartTime];
         }
         [self.evaPlayer play];
     }
@@ -645,6 +649,10 @@ TuSDKEvaPlayerDelegate, TuSDKEvaPlayerLoadDelegate, MultiPickerDelegate, UITextF
     // 设置水印
     exportSettings.waterMarkImage = [UIImage imageNamed:@"sample_watermark"];
     exportSettings.waterMarkPosition = lsqWaterMarkTopRight;
+    
+    
+    // 导出时长配置
+//    exportSettings.outputTimeRange = CMTimeRangeMake(CMTimeMakeWithSeconds(2, USEC_PER_SEC), CMTimeMakeWithSeconds(2,USEC_PER_SEC));
     
     _session = [[TuSDKEvaExportSession alloc] initWithEvaTemplate:_evaTemplate exportOutputSettings:exportSettings];
     _session.delegate = self;

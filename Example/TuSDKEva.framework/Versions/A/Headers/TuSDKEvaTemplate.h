@@ -24,9 +24,9 @@ typedef NS_ENUM(NSUInteger, TuSDKEvaRenderSizeLevel) {
     TuSDKEvaRenderSizeLevelNormal = 0,  // 默认等级大小, 原模板分辨率是多大渲染出就是多大
     TuSDKEvaRenderSizeLevelLow,         // 最低等级大小, 对齐到540P，如果原视频分辨率低于它，不做处理
     TuSDKEvaRenderSizeLevelMiddle,      // 中等等级大小, 对齐到720P，如果原视频分辨率低于它，不做处理
-    TuSDKEvaRenderSizeLevelHigh         // 原分辨率大小, 对齐到1080P，如果原视频分辨率低于它，不做处理
+    TuSDKEvaRenderSizeLevelHigh,        // 2K分辨率大小, 对齐到1080P，如果原视频分辨率低于它，不做处理
+    TuSDKEvaRenderSizeLevelHigher       // 4K分辨率大小, 对齐到2160P，如果原视频分辨率低于它，不做处理
 };
-
 
 // 尺寸加载回调
 void eva_load_callback_size(int &width, int &height);
@@ -114,7 +114,7 @@ NS_ASSUME_NONNULL_BEGIN
  图片资源管理器
  @since v1.0.0
  */
-@property (nonatomic, nonnull,readonly) TuSDKEvaImageAssetManager *imageAssetManager;
+@property (nonatomic, nonnull, readonly) TuSDKEvaImageAssetManager *imageAssetManager;
 
 /**
  字体资源管理器
@@ -133,6 +133,7 @@ NS_ASSUME_NONNULL_BEGIN
  @since v1.0.0
  */
 @property (nonatomic, nonnull,readonly) TuSDKEvaAudioAssetManager *audioAssetManager;
+
 
 /**
  重置模板占位资源
@@ -154,10 +155,16 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,readonly) CGFloat frameRate;
 
 /**
- 总时长
+ 当前预览视频的总时长，如：（设置了播放预览时间范围，该时间则为预览时间范围的总时长，未设置则为原视频时长为准）
  @since v1.0.2
  */
 @property (nonatomic,readonly) CMTime durationTime;
+
+/**
+原视频视频的总时长，不管是否设置预览时间范围，该视频是原视频的总时长。
+@since v1.2.2
+*/
+@property (nonatomic,readonly) CMTime originalDurationTime;
 
 @end
 
@@ -197,13 +204,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) NSInteger replaceMaxVideoCount;
 
 /**
- 图片渲染时图片的压缩比，用于适配低配置的手机尤其是6p及以下，默认是1.0
- 
- @since v1.0.0
- */
-@property (nonatomic, assign) float scale;
-
-/**
  已经替换的视频数量
  @since v1.0.0
  */
@@ -220,6 +220,26 @@ NS_ASSUME_NONNULL_BEGIN
  @since v1.2.1
  */
 @property (nonatomic, assign) TuSDKEvaRenderSizeLevel renderSizeLever;
+
+
+/**
+ 预览设置时间范围，默认为kCMTimeRangeZero，原视频的时间范围
+ 注意：预览时间范围要以原视频时长为准
+ @since v1.2.2
+ */
+@property (nonatomic, assign) CMTimeRange previewTimeRange;
+
+/**
+ 预览时间的开始点，默认是CMTimeZero,原视频的时间范围
+ @since v1.2.2
+ */
+@property (nonatomic, assign, readonly) CMTime previewTimeStart;
+
+/**
+ 预览时间的结束点，默认是CMTimeZero，原视频的时间范围
+ @since v1.2.2
+ */
+@property (nonatomic, assign, readonly) CMTime previewTimeEnd;
 
 @end
 

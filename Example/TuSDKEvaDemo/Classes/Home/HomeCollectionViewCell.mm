@@ -10,7 +10,7 @@
 #import "DownLoadFileModel.h"
 #import "DownLoadManager.h"
 #import "TuSDKFramework.h"
-
+#import "UIImageView+WebCache.h"
 
 @interface HomeCollectionViewCell()<DownLoadFileModelDelegate>
 
@@ -24,13 +24,17 @@
     [super awakeFromNib];
 //    self.image.layer.cornerRadius = 5;
 //    self.image.layer.masksToBounds = YES;
+    
+    self.backgroundColor = lsqRGB(34,34,34);
 }
 
 
 - (void)setModel:(DownLoadFileModel *)model {
     _model = model;
     _text.text = model.name;
-    _image.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:model.image ofType:@"jpg"]];
+//    _image.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:model.image ofType:@"jpg"]];
+    [_image sd_setImageWithURL:[NSURL URLWithString:model.image] placeholderImage:[UIImage imageNamed:@"placeholder_logo"]];
+    
     _actionButton.hidden = model.filePath != nil;
     
     _actionButton.selected = (model.status == DownloadStateResumed || model.status == DownloadStateWait);
