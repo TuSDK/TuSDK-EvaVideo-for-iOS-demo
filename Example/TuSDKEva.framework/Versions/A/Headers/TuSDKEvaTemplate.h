@@ -12,9 +12,9 @@
 #import "TuSDKEvaTextAssetManager.h"
 #import "TuSDKEvaAudioAssetManager.h"
 
-#define TuSDKEvaTemplateLoadResourceProgressNotification @"TuSDKEvaTemplateLoadResourceProgressNotification"
-#define kTuSDKEvaTemplateTimeBase 1000000000.f
+#import "TuSDKEvaErrorCode.h"
 
+#define kTuSDKEvaTemplateTimeBase 1000000000.f
 
 /**
  AE 模板分辨率渲染等级
@@ -60,7 +60,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (instancetype)initWithEvaBundlePath:(NSString *)evaBundlePath options:(nullable TuSDKEvaTemplateOptions*)options;
 
-
 /**
  模板配置选项
  
@@ -88,6 +87,12 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, strong, readonly) TuSDKAOFile *file;
 
+/**
+ 错误信息
+ 
+ @since v1.2.3
+ */
+@property (nonatomic, strong,readonly) NSArray<NSNumber *> *errorCodes;
 
 /**
  配置文件内容
@@ -134,13 +139,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, nonnull,readonly) TuSDKEvaAudioAssetManager *audioAssetManager;
 
-
 /**
  重置模板占位资源
  @since v1.0.0
  */
 - (void)resetTemplate;
-
 
 /**
  帧持续时间
@@ -176,6 +179,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @protocol TuSDKEvaTemplateDelegate <NSObject>
 
+@optional
 /**
  模板加载进度监听事件
 
@@ -186,9 +190,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)evaTemplate:(TuSDKEvaTemplate *)evaTemplate loadedProgress:(CGFloat)progress;
 
 @end
-
-
-
 
 /**
  AE 模板 选项

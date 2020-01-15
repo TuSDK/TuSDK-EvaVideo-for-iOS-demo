@@ -19,7 +19,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     
-    [TuSDK initSdkWithAppKey:@"321801d8c3f6a82a-04-ewdjn1"];
+    [TuSDK initSdkWithAppKey:@"9573fb1a49c35b1c-04-ewdjn1"];
     // 可选: 设置日志输出级别 (默认不输出)
     [TuSDK setLogLevel:lsqLogLevelDEBUG];
     // 设置弹框时，背景按钮不可点击

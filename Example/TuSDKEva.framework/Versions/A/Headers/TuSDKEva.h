@@ -8,6 +8,7 @@
 
 #import "TuSDKEvaPlayer.h"
 #import "TuSDKEvaExportSession.h"
+#import "TuSDKEvaErrorCode.h"
 
 /** Eva 版本号 */
 extern NSString * const lsqEvaVersion;

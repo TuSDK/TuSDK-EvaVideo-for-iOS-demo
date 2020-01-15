@@ -650,9 +650,9 @@ TuSDKEvaPlayerDelegate, TuSDKEvaPlayerLoadDelegate, MultiPickerDelegate, UITextF
     exportSettings.waterMarkImage = [UIImage imageNamed:@"sample_watermark"];
     exportSettings.waterMarkPosition = lsqWaterMarkTopRight;
     
-    
     // 导出时长配置
-//    exportSettings.outputTimeRange = CMTimeRangeMake(CMTimeMakeWithSeconds(2, USEC_PER_SEC), CMTimeMakeWithSeconds(2,USEC_PER_SEC));
+    // 开始0, 到中间
+//    exportSettings.outputTimeRange = CMTimeRangeMake(kCMTimeZero, CMTimeMake(5000, 1000));
     
     _session = [[TuSDKEvaExportSession alloc] initWithEvaTemplate:_evaTemplate exportOutputSettings:exportSettings];
     _session.delegate = self;

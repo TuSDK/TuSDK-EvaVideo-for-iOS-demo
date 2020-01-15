@@ -25,7 +25,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface TuSDKEvaImageAssetManager : NSObject
 
-
 /**
  初始化 TuSDKImageAssetManager 可配置参数
  
@@ -34,15 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (instancetype)initWithEvaTemplate:(TuSDKEvaTemplate *)evaTemplate evaMedias:(NSArray<TuSDKEvaMediaAsset *> *)medias;
 
-///**
-// 初始化 TuSDKImageAssetManager 可配置参数
-// 
-// @return eva 图片集合
-// @since v1.0.0
-// */
-//- (instancetype)initWithEvaTemplate:(TuSDKEvaTemplate *)evaTemplate evaImages:(std::map<std::string, std::shared_ptr<tutu::EvaImageAsset>>)images;
-
-/**
+/*
  资源模板
  
  @since v1.0.0

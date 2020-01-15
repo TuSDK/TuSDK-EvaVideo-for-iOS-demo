@@ -47,7 +47,7 @@ static DownLoadListManager *_manager;
         
 //        NSLog(@"error--%@",error);
 //        NSLog(@"location---%@",location);
-        NSLog(@"response---%@",response.suggestedFilename);
+//        NSLog(@"response---%@",response.suggestedFilename);
 //        NSLog(@"location.path---%@",location.path);
         
         //将文件迁移到指定路径下
@@ -55,12 +55,12 @@ static DownLoadListManager *_manager;
         NSString *filePath = [caches stringByAppendingPathComponent:response.suggestedFilename];
         // 将临时文件剪切或者复制Caches文件夹
         NSFileManager *fileManager = [NSFileManager defaultManager];
-        NSLog(@"filePath:%@",filePath);
+//        NSLog(@"filePath:%@",filePath);
         // 缓存数组
         NSMutableArray *cacheArr = [NSMutableArray array];
         
-        if (error) {
-            
+        if (error) {//无网络情况下，用之前下载的数据
+            filePath = [caches stringByAppendingPathComponent:@"eva.json"];
             if([[NSFileManager defaultManager] fileExistsAtPath:filePath]){//存在
                 cacheArr = [self returnListsWithFilepath:filePath];
                 self.listArr = [self generateListArr:cacheArr];
