@@ -39,6 +39,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) BOOL saveToAlbum;
 
 /**
+ 保存到系统相册的相册名称
+ @since v3.0
+ */
+@property (nonatomic, copy) NSString * _Nullable saveToAlbumName;
+
+/**
  输出的文件类型
  @since v1.0.0
  */
