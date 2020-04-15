@@ -169,6 +169,13 @@ NS_ASSUME_NONNULL_BEGIN
 */
 @property (nonatomic,readonly) CMTime originalDurationTime;
 
+/**
+模版视频的总帧数
+@since v1.2.4
+*/
+@property (nonatomic,readonly) CGFloat durationFrames;
+
+
 @end
 
 #pragma mark TuSDKEvaTemplateDelegate

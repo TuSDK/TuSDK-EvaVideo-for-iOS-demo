@@ -14,7 +14,7 @@
 #import "MultiAssetPicker.h"
 
 @interface EditViewController ()<UICollectionViewDelegate, UICollectionViewDataSource,
-TuSDKEvaPlayerDelegate, TuSDKEvaPlayerLoadDelegate, MultiPickerDelegate, UITextFieldDelegate, TuSDKEvaExportSessionDelegate, UIGestureRecognizerDelegate>
+TuSDKEvaPlayerDelegate, TuSDKEvaPlayerLoadDelegate,TuSDKEvaPlayerExtractDelegate, MultiPickerDelegate, UITextFieldDelegate, TuSDKEvaExportSessionDelegate, UIGestureRecognizerDelegate>
 
 {
     BOOL _saving;
@@ -39,6 +39,7 @@ TuSDKEvaPlayerDelegate, TuSDKEvaPlayerLoadDelegate, MultiPickerDelegate, UITextF
 @property (weak, nonatomic) IBOutlet UIButton *resetBtn;
 @property (weak, nonatomic) IBOutlet UITextField *textField;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *textFiledBottom;
+@property (strong, nonatomic) UIImageView *currentFrameImageView;
 
 /**
  已经选择的路径
@@ -82,7 +83,6 @@ TuSDKEvaPlayerDelegate, TuSDKEvaPlayerLoadDelegate, MultiPickerDelegate, UITextF
 
 
 @implementation EditViewController
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -91,7 +91,6 @@ TuSDKEvaPlayerDelegate, TuSDKEvaPlayerLoadDelegate, MultiPickerDelegate, UITextF
     // 添加后台、前台切换的通知
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(enterBackFromFront) name:UIApplicationWillResignActiveNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(enterFrontFromBack) name:UIApplicationDidBecomeActiveNotification object:nil];
-    
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -152,6 +151,18 @@ TuSDKEvaPlayerDelegate, TuSDKEvaPlayerLoadDelegate, MultiPickerDelegate, UITextF
     // 希望可以及时回收FBO
     [[TuSDKEncodecFBOManager shader] destoryFBO];
     NSLog(@"EditViewController ------ dealloc");
+}
+
+// 用来实时展示截帧图片
+- (UIImageView *)currentFrameImageView{
+    if (!_currentFrameImageView) {
+        
+        _currentFrameImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
+        _currentFrameImageView.backgroundColor = [UIColor redColor];
+        _currentFrameImageView.contentMode = UIViewContentModeScaleToFill;
+        [self.view addSubview:_currentFrameImageView];
+    }
+    return _currentFrameImageView;
 }
 
 - (void)commonInit {
@@ -223,15 +234,18 @@ TuSDKEvaPlayerDelegate, TuSDKEvaPlayerLoadDelegate, MultiPickerDelegate, UITextF
         [self.view layoutIfNeeded];
         
         self.evaPlayer = [[TuSDKEvaPlayer alloc] initWithEvaTemplate:self.evaTemplate inHolderView:self.preview];
+        //设置帧数值数组，可以通过该帧数值，可以用来获取该帧数值下的视频帧图片，目的：为了实时展示模版视频的缩略图。
+        //self.evaPlayer.extractedAllFrameValues =  @[@(30),@(60),@(90),@(120),@(150),@(180),@(210),@(240),@(270),@(300)];
+
         self.evaPlayer.delegate = self;
         self.evaPlayer.loadDelegate = self;
-        
+        self.evaPlayer.extractDelegate = self;
+
         [self.evaPlayer load];
         self.volmSlider.value = 1.0;
         [self.volmSlider setThumbImage:[UIImage imageNamed:@"circle_b_ic"] forState:UIControlStateNormal];
     }
 }
-
 
 #pragma mark - back & front
 - (void)enterBackFromFront {
@@ -452,6 +466,12 @@ TuSDKEvaPlayerDelegate, TuSDKEvaPlayerLoadDelegate, MultiPickerDelegate, UITextF
     }
 }
 
+
+#pragma mark -- TuSDKEvaPlayerExtractDelegate
+- (void)evaPlayer:(TuSDKEvaPlayer *)player currentFrame:(CGFloat)currentFrame currentOutputTime:(CMTime)outputTime currentFrameImage:(UIImage *)currentFrameImage{
+    
+    //self.currentFrameImageView.image = currentFrameImage;
+}
 
 #pragma mark - actions
 

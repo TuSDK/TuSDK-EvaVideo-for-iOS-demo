@@ -10,7 +10,7 @@
 #import "TuSDKEvaImport.h"
 #import "TuSDKEvaTemplate.h"
 
-@protocol TuSDKEvaPlayerDelegate, TuSDKEvaPlayerLoadDelegate;
+@protocol TuSDKEvaPlayerDelegate, TuSDKEvaPlayerLoadDelegate, TuSDKEvaPlayerExtractDelegate;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -41,7 +41,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic,readonly) CMTime firstFrameStartTime;
 
-
 /**
  EvaPlayer 事件委托
  @since     v1.0.0
@@ -55,6 +54,19 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,weak) id<TuSDKEvaPlayerLoadDelegate> _Nullable loadDelegate;
 
 /**
+ 设置帧数值数组，可以通过该帧数值，可以用来获取该帧数值下的视频帧图片，目的：为了实时展示模版视频的缩略图。
+ 举例：取10张：_currentFrames = @[@(30),@(60),@(90),@(120),@(150),@(180),@(210),@(240),@(270),@(300)];
+ @since v1.2.4
+ */
+@property (nonatomic,strong) NSArray <NSNumber *> *extractedAllFrameValues;
+
+/**
+ EvaPlayer 截帧事件委托（从绘制帧数据中截取视频帧回调）,该回调 需设置 extractedAllFrameValues
+ @since     v1.2.4
+ */
+@property (nonatomic,weak) id<TuSDKEvaPlayerExtractDelegate> _Nullable extractDelegate;
+
+/**
  当前视频播放器状态
  @since v1.0.0
  */
@@ -64,7 +76,7 @@ NS_ASSUME_NONNULL_BEGIN
  设置输出音量 默认：1
  @since v1.0.0
  */
-@property (nonatomic) CGFloat volume;
+@property (nonatomic) float volume;
 
 /**
  @property processQueue
@@ -137,6 +149,26 @@ NS_ASSUME_NONNULL_BEGIN
  @since      v1.0.0
  */
 - (void)evaPlayer:(TuSDKEvaPlayer *_Nonnull)player loadStatusChanged:(TuSDKMediaPlayerLoadStatus)status;
+
+@end
+
+/**
+EvaPlayer 截帧事件委托（从绘制帧数据中截取视频帧回调）,该回调 需设置 currentFrames
+@since     v1.2.4
+*/
+@protocol TuSDKEvaPlayerExtractDelegate <NSObject>
+
+@optional
+/**
+ 截取播放器的视频帧，该帧图片是在播放中实时获取的
+ 
+ @param player 当前播放器
+ @param currentFrame 当前帧数值
+ @param outputTime 当前播放时间值
+ @param currentFrameImage 当前帧数值下的截帧图片
+ @since v1.2.4
+ */
+- (void)evaPlayer:(TuSDKEvaPlayer *_Nonnull)player currentFrame:(CGFloat)currentFrame currentOutputTime:(CMTime)outputTime currentFrameImage:(UIImage *)currentFrameImage;
 
 @end
 

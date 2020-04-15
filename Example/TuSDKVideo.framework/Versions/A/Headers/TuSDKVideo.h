@@ -11,8 +11,6 @@
 #import "TuSDKVideoImport.h"
 #import "TuSDKLiveVideoCamera.h"
 #import "TuSDKRecordVideoCamera.h"
-#import "TuSDKLiveVideoProcessor.h"
-#import "TuSDKLiveRTCProcessor.h"
 #import "TuSDKVideoFocusTouchView.h"
 #import "TuSDKFilterConfigProtocol.h"
 #import "TuSDKFilterConfigViewBase.h"
@@ -104,9 +102,6 @@
 #import "TuSDKMediaAudioMuteComposition.h"
 
 #import "TuSDKMediaMovieCompositionComposer.h"
-
-// 多视频编辑
-#import "TuSDKMutipleMediaMovieCompositionComposer.h"
 
 #import "TuSDKGPUVideoPixelBufferForTexture.h"
 #import "TuSDKAssetVideoTrackPixelBufferOutput.h"
